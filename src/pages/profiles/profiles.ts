@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import {
-	NavController,
-	NavParams,
 	ToastController,
 	AlertController,
 	ActionSheetController,
@@ -13,6 +11,8 @@ import { NewProfilePage } from '../../pages/new-profile/new-profile';
 import { EditProfilePage } from '../../pages/edit-profile/edit-profile';
 
 import { ProfilesProvider } from '../../providers/profiles/profiles';
+import { TimingProvider } from '../../providers/timing/timing';
+
 import { Profile } from '../../model/profile.interface';
 
 
@@ -25,29 +25,20 @@ export class ProfilesPage {
 	profiles: Profile[];
 
 	constructor(
-		public navCtrl: NavController,
-		public navParams: NavParams,
 		public platform: Platform,
 		public alertCtrl: AlertController,
 		public toastCtrl: ToastController,
 		public actionSheetCtrl: ActionSheetController,
 		public modalCtrl: ModalController,
-		public profilesProvider: ProfilesProvider) {
+		public profilesProvider: ProfilesProvider,
+		public timing: TimingProvider,
+	) {
 	}
 
 	ionViewDidLoad() {
 		this.profilesProvider.getProfiles().subscribe(profiles => {
 			this.profiles = profiles;
 		});
-	}
-
-	stringifyInfinite(value: number): string {
-		if (value >= 0) {
-			return value.toString();
-		}
-		else {
-			return "Infinite";
-		}
 	}
 
 	showProfileOptions(profile: Profile) {
@@ -58,14 +49,12 @@ export class ProfilesPage {
 					text: 'Activate',
 					icon: !this.platform.is('ios') ? 'play' : null,
 					handler: () => {
-						console.log('Activate clicked');
-						this.onCreateProfileButtonClicked();
+						this.onActivateProfileButtonClicked(profile);
 					}
 				}, {
 					text: 'Edit',
 					icon: !this.platform.is('ios') ? 'create' : null,
 					handler: () => {
-						console.log('Edit clicked');
 						this.onEditProfileClicked(profile);
 					}
 				}, {
@@ -73,7 +62,6 @@ export class ProfilesPage {
 					role: 'destructive',
 					icon: !this.platform.is('ios') ? 'trash' : null,
 					handler: () => {
-						console.log('Delete clicked');
 						this.onDeleteProfileClicked(profile);
 					}
 				}
@@ -90,43 +78,62 @@ export class ProfilesPage {
 		toast.present();
 	}
 
+	onActivateProfileButtonClicked(profile: Profile) {
+		this.activateProfile(profile);
+	}
+
+	activateProfile(profile: Profile) {
+		// TODO: implement
+		// TODO: prevent "activate" option from pushing if profile is already active
+		// (disable?)
+		this.profilesProvider.activateProfile(profile).then((activatedProfile) => {
+			this.showToast('Profile "' + activatedProfile.name + '" activated');
+		}).catch((e) => console.log("error: ", e));
+		// send signal to arduino
+	}
+
 	onCreateProfileButtonClicked() {
 		this.showCreateProfilePage();
 	}
 
-	private showCreateProfilePage() {
-		const totalProfiles = this.profiles.length + 1;
-		this.navCtrl.push(NewProfilePage);
+	showCreateProfilePage() {
+		let createProfileModal = this.modalCtrl.create(NewProfilePage);
 
-		// let newProfileModal = this.modalCtrl.create(NewProfilePage);
-		// newProfileModal.onDidDismiss(data => {
-		// 	console.log(data);
-		// });
+		createProfileModal.onDidDismiss((data) => {
+			if (data && data.newProfileData) {
+				this.createProfile(data.newProfileData);
+			}
+		});
 
-		// newProfileModal.present();
+		createProfileModal.present();
+	}
+
+	createProfile(profileData: Profile) {
+		this.profilesProvider.createProfile(profileData).then((createdProfile) => {
+			this.showToast('Profile "' + createdProfile.name + '" created');
+		});
 	}
 
 	onEditProfileClicked(profile: Profile) {
-		this.editProfile(profile);
+		this.showEditProfileModal(profile);
 	}
 
-	editProfile(profile: Profile) {
-		console.log("edit profile");
-		// TODO: implement
-		// show edit dialog
-		// let modal = this.modalCtrl.create(EditProfilePage);
-		// modal.present();
+	showEditProfileModal(profile: Profile) {
+		let editModal = this.modalCtrl.create(EditProfilePage, { profileToEdit: profile });
 
-
-		// gather info
-		// on confirm => update profile
-	}
-
-	updateProfile(profile: Profile) {
-		this.profilesProvider.updateProfile(profile).then(() => {
-			this.showToast("Profile updated");
+		editModal.onDidDismiss((data) => {
+			if (data && data.updates) {
+				this.updateProfile(data.updates);
+			}
 		});
 
+		editModal.present();
+	}
+
+	updateProfile(updates: Profile) {
+		this.profilesProvider.updateProfile(updates).then((updatedProfile) => {
+			this.showToast('Profile "' + updatedProfile.name + '" updated');
+		}).catch((e) => console.log(e));
 	}
 
 	onDeleteProfileClicked(profile: Profile) {
@@ -147,9 +154,9 @@ export class ProfilesPage {
 	}
 
 	deleteProfile(profileId: number) {
-		this.profilesProvider.deleteProfile(profileId).then(() => {
-			this.showToast("Profile deleted");
-		});
+		this.profilesProvider.deleteProfile(profileId).then((deletedProfile) => {
+			this.showToast('Profile "' + deletedProfile.name + '" deleted');
+		}).catch((e) => console.log(e));;
 	}
 
 }

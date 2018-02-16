@@ -16,7 +16,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ArduinoBtApiProvider } from '../providers/arduino-bt-api/arduino-bt-api';
 import { ProfilesProvider } from '../providers/profiles/profiles';
-import { TimeConverterProvider } from '../providers/time-converter/time-converter';
+import { TimingProvider } from '../providers/timing/timing';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,7 @@ import { TimeConverterProvider } from '../providers/time-converter/time-converte
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ArduinoBtApiProvider,
     ProfilesProvider,
-    TimeConverterProvider
+    TimingProvider
   ]
 })
 export class AppModule {}

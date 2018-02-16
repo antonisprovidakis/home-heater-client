@@ -16,12 +16,12 @@
 		<h5 *ngIf="!enabled">You have to restart the heater manually!</h5>
 	</div>
 
-	<div id="activeProfileDataContainer" *ngIf="enabled">
+	<div id="activeProfileDataContainer" *ngIf="enabled && activeProfile">
 		<h3>Active Profile</h3>
-		<span>Name: </span><span>name1</span><br>
-		<span>Heating: </span><span>2h</span><br>
-		<span>Preservation: </span><span>2m</span><br>
-		<span>Rest: </span><span>2m</span>
+		<span>Name: </span><span>{{activeProfile.name}}</span><br>
+		<span>Heating: </span><span>{{timing.stringifyInfinite(activeProfile.heat)}}</span><br>
+		<span>Preservation: </span><span>{{timing.stringifyInfinite(activeProfile.preserve)}}</span><br>
+		<span>Rest: </span><span>{{timing.stringifyInfinite(activeProfile.rest)}}</span>
 	</div>
 
 	<button id="turnOffButton" *ngIf="enabled" ion-button color="danger" full icon-only large round (click)="onTurnOffButtonClicked()">
