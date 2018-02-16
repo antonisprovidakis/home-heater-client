@@ -1,0 +1,64 @@
+<ion-header>
+
+	<ion-navbar>
+		<ion-title>Create New Profile</ion-title>
+	</ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+	<ion-list>
+
+		<ion-item>
+			<ion-label floating>Name (Optional)</ion-label>
+			<ion-input type="text" [(ngModel)]="name"></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-label>Heating time</ion-label>
+			<ion-select [(ngModel)]="heat">
+				<ion-option *ngFor="let v of getTimingSelectValues()" value="{{v}}">{{v === -1 ? "Infinite" : v}}</ion-option>
+			</ion-select>
+			<ion-select>
+				<ion-option value="h">Hours</ion-option>
+				<ion-option value="m" selected>Minutes</ion-option>
+				<ion-option value="s">Seconds</ion-option>
+			</ion-select>
+		</ion-item>
+
+		<ion-item>
+			<ion-label>Preservation time</ion-label>
+			<ion-select [(ngModel)]="preserve">
+				<ion-option *ngFor="let v of getTimingSelectValues()" value="{{v}}">{{v === -1 ? "Infinite" : v}}</ion-option>
+			</ion-select>
+			<ion-select>
+				<ion-option value="h">Hours</ion-option>
+				<ion-option value="m" selected>Minutes</ion-option>
+				<ion-option value="s">Seconds</ion-option>
+			</ion-select>
+		</ion-item>
+
+		<ion-item>
+			<ion-label>Rest time</ion-label>
+			<ion-select [(ngModel)]="rest">
+				<ion-option *ngFor="let v of getTimingSelectValues()" value="{{v}}">{{stringifyInfinite(v)}}</ion-option>
+			</ion-select>
+			<ion-select>
+				<ion-option value="h">Hours</ion-option>
+				<ion-option value="m" selected>Minutes</ion-option>
+				<ion-option value="s">Seconds</ion-option>
+			</ion-select>
+		</ion-item>
+
+	</ion-list>
+
+	<!-- <button ion-button full (click)="createProfile()">Save</button> -->
+
+</ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<button ion-button full (click)="createProfile()" [disabled]="checkButtonDisabled()">Save</button>
+	</ion-toolbar>
+</ion-footer>
