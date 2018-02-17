@@ -7,7 +7,7 @@ import {
 
 import { Profile } from '../../model/profile.interface';
 
-import { TimingProvider } from '../../providers/timing/timing';
+import { TimingProvider, TimeUnit } from '../../providers/timing/timing';
 
 
 @Component({
@@ -17,9 +17,13 @@ import { TimingProvider } from '../../providers/timing/timing';
 export class NewProfilePage {
 
 	name: string;
+
 	heat: number;
 	preserve: number;
 	rest: number;
+	heatTimeUnit: TimeUnit;
+	preserveTimeUnit: TimeUnit;
+	restTimeUnit: TimeUnit;
 
 	constructor(
 		public viewCtrl: ViewController,
@@ -27,6 +31,10 @@ export class NewProfilePage {
 		public timing: TimingProvider,
 		public platform: Platform
 	) {
+
+		this.heatTimeUnit = TimeUnit.MINUTE;
+		this.preserveTimeUnit = TimeUnit.MINUTE;
+		this.restTimeUnit = TimeUnit.MINUTE;
 	}
 
 	ionViewDidLoad() {
@@ -42,16 +50,22 @@ export class NewProfilePage {
 	}
 
 	createProfile() {
-		const name = this.name;
-		const heat = this.heat;
-		const preserve = this.preserve;
-		const rest = this.rest;
+		// const name = this.name;
+		// const heat = this.heat;
+		// const preserve = this.preserve;
+		// const rest = this.rest;
+		// const heat = this.timing.millisBasedOnTimeUnit(this.heatTimeUnit, this.heat);
+		// const preserve = this.timing.millisBasedOnTimeUnit(this.preserveTimeUnit, this.preserve);
+		// const rest = this.timing.millisBasedOnTimeUnit(this.restTimeUnit, this.rest);
 
 		const newProfileData: Profile = {
-			name: name,
-			heat: heat,
-			preserve: preserve,
-			rest: rest
+			name: this.name,
+			heat: this.heat,
+			heatTimeUnit: this.heatTimeUnit,
+			preserve: this.preserve,
+			preserveTimeUnit: this.preserveTimeUnit,
+			rest: this.rest,
+			restTimeUnit: this.restTimeUnit
 		};
 
 		this.dismiss(newProfileData);

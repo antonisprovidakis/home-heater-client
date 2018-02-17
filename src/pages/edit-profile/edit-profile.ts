@@ -8,7 +8,7 @@ import {
 
 import { Profile } from '../../model/profile.interface';
 import { ProfilesProvider } from '../../providers/profiles/profiles';
-import { TimingProvider } from '../../providers/timing/timing';
+import { TimingProvider, TimeUnit } from '../../providers/timing/timing';
 
 @Component({
 	selector: 'page-edit-profile',
@@ -16,12 +16,15 @@ import { TimingProvider } from '../../providers/timing/timing';
 })
 export class EditProfilePage {
 
-	profileInitialValues: Profile;
+	oldValues: Profile;
 
-	newName: string;
-	newHeat: number;
-	newPreserve: number;
-	newRest: number;
+	name: string;
+	heat: number;
+	preserve: number;
+	rest: number;
+	heatTimeUnit: TimeUnit;
+	preserveTimeUnit: TimeUnit;
+	restTimeUnit: TimeUnit;
 
 	constructor(
 		public navParams: NavParams,
@@ -31,13 +34,15 @@ export class EditProfilePage {
 		public timing: TimingProvider,
 		public profilesProvider: ProfilesProvider
 	) {
+		this.oldValues = this.navParams.get('profileToEdit');
 
-		this.profileInitialValues = this.navParams.get('profileToEdit');
-
-		this.newName = this.profileInitialValues.name;
-		this.newHeat = this.profileInitialValues.heat;
-		this.newPreserve = this.profileInitialValues.preserve;
-		this.newRest = this.profileInitialValues.rest;
+		this.name = this.oldValues.name;
+		this.heat = this.oldValues.heat;
+		this.preserve = this.oldValues.preserve;
+		this.rest = this.oldValues.rest;
+		this.heatTimeUnit = this.oldValues.heatTimeUnit;
+		this.preserveTimeUnit = this.oldValues.preserveTimeUnit;
+		this.restTimeUnit = this.oldValues.restTimeUnit;
 	}
 
 	ionViewDidLoad() {
@@ -47,28 +52,41 @@ export class EditProfilePage {
 	}
 
 	checkDataChanged() {
-		return !(this.newName === this.profileInitialValues.name
-			&& this.newHeat === this.profileInitialValues.heat
-			&& this.newPreserve === this.profileInitialValues.preserve
-			&& this.newRest === this.profileInitialValues.rest);
+		return !(this.name === this.oldValues.name
+			&& this.heat === this.oldValues.heat
+			&& this.preserve === this.oldValues.preserve
+			&& this.rest === this.oldValues.rest
+			&& this.heatTimeUnit === this.oldValues.heatTimeUnit
+			&& this.preserveTimeUnit === this.oldValues.preserveTimeUnit
+			&& this.restTimeUnit === this.oldValues.restTimeUnit
+		);
 	}
 
 	saveChanges() {
 		const updatedValues: Profile = {
-			id: this.profileInitialValues.id
+			id: this.oldValues.id
 		}
 
-		if (this.newName !== this.profileInitialValues.name) {
-			updatedValues.name = this.newName;
+		if (this.name !== this.oldValues.name) {
+			updatedValues.name = this.name;
 		}
-		if (this.newHeat !== this.profileInitialValues.heat) {
-			updatedValues.heat = this.newHeat;
+		if (this.heat !== this.oldValues.heat) {
+			updatedValues.heat = this.heat;
 		}
-		if (this.newPreserve !== this.profileInitialValues.preserve) {
-			updatedValues.preserve = this.newPreserve;
+		if (this.preserve !== this.oldValues.preserve) {
+			updatedValues.preserve = this.preserve;
 		}
-		if (this.newRest !== this.profileInitialValues.rest) {
-			updatedValues.rest = this.newRest;
+		if (this.rest !== this.oldValues.rest) {
+			updatedValues.rest = this.rest;
+		}
+		if (this.heatTimeUnit !== this.oldValues.heatTimeUnit) {
+			updatedValues.heatTimeUnit = this.heatTimeUnit;
+		}
+		if (this.preserveTimeUnit !== this.oldValues.preserveTimeUnit) {
+			updatedValues.preserveTimeUnit = this.preserveTimeUnit;
+		}
+		if (this.restTimeUnit !== this.oldValues.restTimeUnit) {
+			updatedValues.restTimeUnit = this.restTimeUnit;
 		}
 
 		this.dismiss(updatedValues);

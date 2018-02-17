@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 
 
 import { Profile } from '../../model/profile.interface';
-import { TimingProvider } from '../timing/timing'
+import { TimingProvider, TimeUnit } from '../timing/timing'
 
 @Injectable()
 export class ProfilesProvider {
@@ -96,8 +96,11 @@ export class ProfilesProvider {
 					name: this.createName(newProfileValues.name, newId),
 					active: false,
 					heat: newProfileValues.heat,
+					heatTimeUnit: newProfileValues.heatTimeUnit,
 					preserve: newProfileValues.preserve,
-					rest: newProfileValues.rest
+					preserveTimeUnit: newProfileValues.preserveTimeUnit,
+					rest: newProfileValues.rest,
+					restTimeUnit: newProfileValues.restTimeUnit
 				};
 
 				p.push(profile);
@@ -139,6 +142,9 @@ export class ProfilesProvider {
 				p.heat = updates.heat || p.heat;
 				p.preserve = updates.preserve || p.preserve;
 				p.rest = updates.rest || p.rest;
+				p.heatTimeUnit = updates.heatTimeUnit || p.heatTimeUnit;
+				p.preserveTimeUnit = updates.preserveTimeUnit || p.preserveTimeUnit;
+				p.restTimeUnit = updates.restTimeUnit || p.restTimeUnit;
 
 				this.storage.set("profiles", profiles)
 					.then(() => {
@@ -184,17 +190,34 @@ export class ProfilesProvider {
 				id: 1,
 				name: "Profile 1",
 				active: true,
-				heat: 10000,
-				preserve: 3000,
-				rest: 2000
+				heat: 2,
+				heatTimeUnit: TimeUnit.HOUR,
+				preserve: 3,
+				preserveTimeUnit: TimeUnit.MINUTE,
+				rest: 20,
+				restTimeUnit: TimeUnit.SECOND
 			},
 			{
 				id: 2,
 				name: "Profile 2",
 				active: false,
-				heat: 8000,
-				preserve: 4000,
-				rest: 1000
+				heat: 60,
+				heatTimeUnit: TimeUnit.MINUTE,
+				preserve: 3,
+				preserveTimeUnit: TimeUnit.MINUTE,
+				rest: 20,
+				restTimeUnit: TimeUnit.SECOND
+			},
+			{
+				id: 3,
+				name: "Profile 3",
+				active: false,
+				heat: 30,
+				heatTimeUnit: TimeUnit.MINUTE,
+				preserve: 45,
+				preserveTimeUnit: TimeUnit.SECOND,
+				rest: 4,
+				restTimeUnit: TimeUnit.MINUTE
 			}
 		];
 	}
