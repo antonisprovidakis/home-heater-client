@@ -73,7 +73,9 @@ export class ProfilesPage {
 	showToast(msg: string) {
 		const toast = this.toastCtrl.create({
 			message: msg,
-			duration: 3000
+			duration: 3000,
+			showCloseButton: true,
+			closeButtonText: 'Ok'
 		});
 		toast.present();
 	}
@@ -83,13 +85,10 @@ export class ProfilesPage {
 	}
 
 	activateProfile(profile: Profile) {
-		// TODO: implement
-		// TODO: prevent "activate" option from pushing if profile is already active
-		// (disable?)
 		this.profilesProvider.activateProfile(profile).then((activatedProfile) => {
 			this.showToast('Profile "' + activatedProfile.name + '" activated');
 		}).catch((e) => console.log("error: ", e));
-		// send signal to arduino
+		// TODO: implement - send signal to arduino
 	}
 
 	onCreateProfileButtonClicked() {

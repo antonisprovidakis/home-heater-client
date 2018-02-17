@@ -1,23 +1,42 @@
 import { Injectable } from '@angular/core';
 
+export const enum TimeUnit {
+	SECOND = "s",
+	MINUTE = "m",
+	HOUR = "h"
+}
 
 @Injectable()
 export class TimingProvider {
-
-	public static readonly SECOND_TEXT = "s";
-	public static readonly MINUTE_TEXT = "m";
-	public static readonly HOUR_TEXT = "h";
 
 	public static readonly SECOND = 1000;
 	public static readonly MINUTE = 60 * TimingProvider.SECOND;
 	public static readonly HOUR = 60 * TimingProvider.MINUTE;
 
-	constructor() {
+	timeValues: number[];
 
+	constructor() {
 	}
 
 	// TODO: more user friendly implementation.
 	// e.g. to format: hh:mm:ss
+
+	millisBasedOnTimeUnit(timeUnit: TimeUnit, value: number): number {
+		if (value === -1) {
+			return -1; // it's infinite
+		}
+
+		switch (timeUnit) {
+			case TimeUnit.HOUR:
+				return this.hoursToMillis(value);
+			case TimeUnit.MINUTE:
+				return this.minutesToMillis(value);
+			case TimeUnit.SECOND:
+				return this.secondsToMillis(value);
+			default:
+				return value;
+		}
+	}
 
 	hoursToMillis(hours: number): number {
 		return hours * TimingProvider.HOUR;
@@ -43,38 +62,45 @@ export class TimingProvider {
 		return millis * TimingProvider.SECOND;
 	}
 
-
 	getTimingValues(): number[] {
-		const low = -1;
-		const high = 60;
+		if (!this.timeValues) {
+			const low = -1;
+			const high = 60;
+			this.timeValues = this.createArrayWithinRange(low, high);
+		}
 
+		return this.timeValues;
+	}
+
+	private createArrayWithinRange(low: number, high: number): number[] {
 		const values: number[] = [];
 
-		for (let i = low; i < high; i++) {
+		for (let i = low; i <= high; i++) {
 			values.push(i);
 		}
 
 		return values;
 	}
 
-	getTimingUnitHourText() {
-		return TimingProvider.HOUR_TEXT;
-	}
-
-	getTimingUnitMinuteText() {
-		return TimingProvider.MINUTE_TEXT;
-	}
-
-	getTimingUnitSecondText() {
-		return TimingProvider.SECOND_TEXT;
-	}
-
 	getTimingUnits() {
 		return [
-			{ val: TimingProvider.HOUR_TEXT, label: "Hours" },
-			{ val: TimingProvider.MINUTE_TEXT, label: "Minutes" },
-			{ val: TimingProvider.SECOND_TEXT, label: "Seconds" }
+			{ val: TimeUnit.HOUR, label: this.timeUnitToString(TimeUnit.HOUR) },
+			{ val: TimeUnit.MINUTE, label: this.timeUnitToString(TimeUnit.MINUTE) },
+			{ val: TimeUnit.SECOND, label: this.timeUnitToString(TimeUnit.SECOND) }
 		];
+	}
+
+	timeUnitToString(timeUnit: TimeUnit): string {
+		switch (timeUnit) {
+			case TimeUnit.HOUR:
+				return "Hours";
+			case TimeUnit.MINUTE:
+				return "Minutes";
+			case TimeUnit.SECOND:
+				return "Seconds";
+			default:
+				return "";
+		}
 	}
 
 	// Helper method

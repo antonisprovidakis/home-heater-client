@@ -10,7 +10,9 @@
 		<div text-center>
 			<h1 id="stateHeading">Heater is
 				<span *ngIf="enabled; else heaterDisabledBlock">on</span>
-				<ng-template #heaterDisabledBlock><span>off</span></ng-template>
+				<ng-template #heaterDisabledBlock>
+					<span>off</span>
+				</ng-template>
 			</h1>
 		</div>
 		<h5 *ngIf="!enabled">You have to restart the heater manually!</h5>
@@ -18,10 +20,20 @@
 
 	<div id="activeProfileDataContainer" *ngIf="enabled && activeProfile">
 		<h3>Active Profile</h3>
-		<span>Name: </span><span>{{activeProfile.name}}</span><br>
-		<span>Heating: </span><span>{{timing.stringifyInfinite(activeProfile.heat)}}</span><br>
-		<span>Preservation: </span><span>{{timing.stringifyInfinite(activeProfile.preserve)}}</span><br>
-		<span>Rest: </span><span>{{timing.stringifyInfinite(activeProfile.rest)}}</span>
+		<span>Name: </span>
+		<span>{{activeProfile.name}}</span>
+		<br>
+		<span>Heating: </span>
+		<span>{{timing.stringifyInfinite(activeProfile.heat)}}</span>
+		<span *ngIf="activeProfile.heat>0">{{timing.timeUnitToString(activeProfile.heatTimeUnit)}}</span>
+		<br>
+		<span>Preservation: </span>
+		<span>{{timing.stringifyInfinite(activeProfile.preserve)}}</span>
+		<span *ngIf="activeProfile.preserve>0">{{timing.timeUnitToString(activeProfile.preserveTimeUnit)}}</span>
+		<br>
+		<span>Rest: </span>
+		<span>{{timing.stringifyInfinite(activeProfile.rest)}}</span>
+		<span *ngIf="activeProfile.rest>0">{{timing.timeUnitToString(activeProfile.restTimeUnit)}}</span>
 	</div>
 
 	<button id="turnOffButton" *ngIf="enabled" ion-button color="danger" full icon-only large round (click)="onTurnOffButtonClicked()">

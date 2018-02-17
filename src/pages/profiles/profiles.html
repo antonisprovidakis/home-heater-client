@@ -10,9 +10,18 @@
 	<ion-list>
 		<ion-item *ngFor="let p of profiles">
 			<h2>{{p.name}}</h2>
-			<p>Heat: {{timing.stringifyInfinite(p.heat)}}</p>
-			<p>Preseve: {{timing.stringifyInfinite(p.preserve)}}</p>
-			<p>Rest: {{timing.stringifyInfinite(p.rest)}}</p>
+			<p>Heat:
+				<span>{{timing.stringifyInfinite(p.heat)}}</span>
+				<span *ngIf="p.heat>0">{{timing.timeUnitToString(p.heatTimeUnit)}}</span>
+			</p>
+			<p>Preseve:
+				<span>{{timing.stringifyInfinite(p.preserve)}}</span>
+				<span *ngIf="p.preserve>0">{{timing.timeUnitToString(p.preserveTimeUnit)}}</span>
+			</p>
+			<p>Rest:
+				<span>{{timing.stringifyInfinite(p.rest)}}</span>
+				<span *ngIf="p.rest>0">{{timing.timeUnitToString(p.restTimeUnit)}}</span>
+			</p>
 			<ion-badge item-end *ngIf="p.active" color="secondary">Active</ion-badge>
 			<button class="button_profile_options" ion-button item-end icon-only clear (click)="showProfileOptions(p)">
 				<ion-icon name="more"></ion-icon>

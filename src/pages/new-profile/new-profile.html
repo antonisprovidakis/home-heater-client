@@ -26,8 +26,8 @@
 			<ion-select [(ngModel)]="heat">
 				<ion-option *ngFor="let v of timing.getTimingValues()" [value]="v">{{timing.stringifyInfinite(v)}}</ion-option>
 			</ion-select>
-			<ion-select>
-				<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val" selected="{{u.val === timing.getTimingUnitMinuteText()}}">{{u.label}}</ion-option>
+			<ion-select [(ngModel)]="heatTimeUnit">
+				<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val">{{u.label}}</ion-option>
 			</ion-select>
 		</ion-item>
 
@@ -36,8 +36,8 @@
 			<ion-select [(ngModel)]="preserve">
 				<ion-option *ngFor="let v of timing.getTimingValues()" [value]="v">{{timing.stringifyInfinite(v)}}</ion-option>
 			</ion-select>
-			<ion-select>
-				<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val" selected="{{u.val === timing.getTimingUnitMinuteText()}}">{{u.label}}</ion-option>
+			<ion-select [(ngModel)]="preserveTimeUnit">
+				<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val">{{u.label}}</ion-option>
 			</ion-select>
 		</ion-item>
 
@@ -46,8 +46,8 @@
 			<ion-select [(ngModel)]="rest">
 				<ion-option *ngFor="let v of timing.getTimingValues()" [value]="v">{{timing.stringifyInfinite(v)}}</ion-option>
 			</ion-select>
-			<ion-select>
-				<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val" selected="{{u.val === timing.getTimingUnitMinuteText()}}">{{u.label}}</ion-option>
+			<ion-select [(ngModel)]="restTimeUnit">
+				<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val">{{u.label}}</ion-option>
 			</ion-select>
 		</ion-item>
 
