@@ -62,20 +62,22 @@ export class ProfilesProvider {
 				const currentlyActiveProfile = profiles.find(x => x.active === true);
 
 				if (!p) {
-					return reject("Profile not found");
+					return reject(new Error(`Profile with id ${profile.id} not found`));
 				}
 
 				if (p.id === currentlyActiveProfile.id) {
-					return reject("Profile is already active");
+					return reject(new Error(`Profile with id ${profile.id} is already active`));
 				}
 
 				currentlyActiveProfile.active = false;
 				p.active = true;
 
-				this.storage.set("profiles", profiles).then(() => {
-					this.profilesSubject.next(profiles);
-					resolve(p);
-				}).catch(e => reject(e));
+				this.storage.set("profiles", profiles)
+					.then(() => {
+						this.profilesSubject.next(profiles);
+						resolve(p);
+					})
+					.catch(e => reject(e));
 			});
 		});
 	}
@@ -127,15 +129,11 @@ export class ProfilesProvider {
 
 	updateProfile(updates: Profile): Promise<Profile> {
 		return new Promise((resolve, reject) => {
-			if (!updates.id) {
-				return reject("profile not selected");
-			}
-
 			this.getProfilesFromStorage().then(profiles => {
 				const p = profiles.find(x => x.id === updates.id);
 
 				if (!p) {
-					return reject("profile not found");
+					return reject(new Error(`Profile with id ${updates.id} not found`));
 				}
 
 				p.name = updates.name || p.name;
@@ -162,7 +160,7 @@ export class ProfilesProvider {
 				const profileToDelete = profiles.find(x => x.id === profileId);
 
 				if (!profileToDelete) {
-					return reject("profile id not found: " + profileId);
+					return reject(new Error(`Profile with id ${profileId} not found`));
 				}
 
 				profiles = profiles.filter(x => x.id !== profileId);
