@@ -23,11 +23,11 @@
 		<span>Name: </span>
 		<span>{{activeProfile.name}}</span>
 		<br>
-		<span>Heating: </span>
+		<span>Heat: </span>
 		<span>{{timing.stringifyInfinite(activeProfile.heat)}}</span>
 		<span *ngIf="activeProfile.heat>0">{{timing.timeUnitToString(activeProfile.heatTimeUnit)}}</span>
 		<br>
-		<span>Preservation: </span>
+		<span>Preserve: </span>
 		<span>{{timing.stringifyInfinite(activeProfile.preserve)}}</span>
 		<span *ngIf="activeProfile.preserve>0">{{timing.timeUnitToString(activeProfile.preserveTimeUnit)}}</span>
 		<br>
