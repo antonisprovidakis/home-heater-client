@@ -14,9 +14,12 @@ import {EditProfilePage} from '../pages/edit-profile/edit-profile';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { ArduinoBtApiProvider } from '../providers/arduino-bt-api/arduino-bt-api';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
+
+
 import { ProfilesProvider } from '../providers/profiles/profiles';
 import { TimingProvider } from '../providers/timing/timing';
+import { ArduinoHeaterProvider } from '../providers/arduino-heater/arduino-heater';
 
 @NgModule({
   declarations: [
@@ -44,10 +47,11 @@ import { TimingProvider } from '../providers/timing/timing';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ArduinoBtApiProvider,
+		{provide: ErrorHandler, useClass: IonicErrorHandler},
+		BluetoothSerial,
     ProfilesProvider,
-    TimingProvider
+    TimingProvider,
+    ArduinoHeaterProvider
   ]
 })
 export class AppModule {}
