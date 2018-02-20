@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 
 
 import { Profile } from '../../model/profile.interface';
-import { TimingProvider, TimeUnit } from '../timing/timing'
+import { TimingProvider } from '../timing/timing'
 
 @Injectable()
 export class ProfilesProvider {
@@ -186,36 +186,36 @@ export class ProfilesProvider {
 		return [
 			{
 				id: 1,
-				name: "Profile 1",
+				name: 'Profile 1',
 				active: true,
 				heat: 2,
-				heatTimeUnit: TimeUnit.HOUR,
+				heatTimeUnit: 'h',
 				preserve: 3,
-				preserveTimeUnit: TimeUnit.MINUTE,
+				preserveTimeUnit: 'm',
 				rest: 20,
-				restTimeUnit: TimeUnit.SECOND
+				restTimeUnit: 's'
 			},
 			{
 				id: 2,
-				name: "Profile 2",
+				name: 'Profile 2',
 				active: false,
 				heat: 60,
-				heatTimeUnit: TimeUnit.MINUTE,
+				heatTimeUnit: 'm',
 				preserve: 3,
-				preserveTimeUnit: TimeUnit.MINUTE,
+				preserveTimeUnit: 'm',
 				rest: 20,
-				restTimeUnit: TimeUnit.SECOND
+				restTimeUnit: 's'
 			},
 			{
 				id: 3,
-				name: "Profile 3",
+				name: 'Profile 3',
 				active: false,
 				heat: 30,
-				heatTimeUnit: TimeUnit.MINUTE,
+				heatTimeUnit: 'm',
 				preserve: 45,
-				preserveTimeUnit: TimeUnit.SECOND,
+				preserveTimeUnit: 's',
 				rest: 4,
-				restTimeUnit: TimeUnit.MINUTE
+				restTimeUnit: 'm'
 			}
 		];
 	}

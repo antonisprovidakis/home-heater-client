@@ -7,7 +7,7 @@ import {
 
 import { Profile } from '../../model/profile.interface';
 
-import { TimingProvider, TimeUnit } from '../../providers/timing/timing';
+import { TimingProvider } from '../../providers/timing/timing';
 
 
 @Component({
@@ -21,9 +21,9 @@ export class NewProfilePage {
 	heat: number;
 	preserve: number;
 	rest: number;
-	heatTimeUnit: TimeUnit;
-	preserveTimeUnit: TimeUnit;
-	restTimeUnit: TimeUnit;
+	heatTimeUnit: string;
+	preserveTimeUnit: string;
+	restTimeUnit: string;
 
 	constructor(
 		public viewCtrl: ViewController,
@@ -32,9 +32,9 @@ export class NewProfilePage {
 		public platform: Platform
 	) {
 
-		this.heatTimeUnit = TimeUnit.MINUTE;
-		this.preserveTimeUnit = TimeUnit.MINUTE;
-		this.restTimeUnit = TimeUnit.MINUTE;
+		this.heatTimeUnit = 'm';
+		this.preserveTimeUnit = 'm';
+		this.restTimeUnit = 'm';
 	}
 
 	ionViewDidLoad() {

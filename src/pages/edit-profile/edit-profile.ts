@@ -8,7 +8,7 @@ import {
 
 import { Profile } from '../../model/profile.interface';
 import { ProfilesProvider } from '../../providers/profiles/profiles';
-import { TimingProvider, TimeUnit } from '../../providers/timing/timing';
+import { TimingProvider } from '../../providers/timing/timing';
 
 @Component({
 	selector: 'page-edit-profile',
@@ -22,9 +22,9 @@ export class EditProfilePage {
 	heat: number;
 	preserve: number;
 	rest: number;
-	heatTimeUnit: TimeUnit;
-	preserveTimeUnit: TimeUnit;
-	restTimeUnit: TimeUnit;
+	heatTimeUnit: string;
+	preserveTimeUnit: string;
+	restTimeUnit: string;
 
 	constructor(
 		public navParams: NavParams,

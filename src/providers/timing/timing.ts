@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
 
-export const enum TimeUnit {
-	SECOND = "s",
-	MINUTE = "m",
-	HOUR = "h"
-}
-
 @Injectable()
 export class TimingProvider {
 
@@ -21,17 +15,17 @@ export class TimingProvider {
 	// TODO: more user friendly implementation.
 	// e.g. to format: hh:mm:ss
 
-	millisBasedOnTimeUnit(timeUnit: TimeUnit, value: number): number {
+	millisBasedOnTimeUnit(timeUnit: string, value: number): number {
 		if (value === -1) {
 			return -1; // it's infinite
 		}
 
 		switch (timeUnit) {
-			case TimeUnit.HOUR:
+			case 'h':
 				return this.hoursToMillis(value);
-			case TimeUnit.MINUTE:
+			case 'm':
 				return this.minutesToMillis(value);
-			case TimeUnit.SECOND:
+			case 's':
 				return this.secondsToMillis(value);
 			default:
 				return value;
@@ -84,22 +78,22 @@ export class TimingProvider {
 
 	getTimingUnits() {
 		return [
-			{ val: TimeUnit.HOUR, label: this.timeUnitToString(TimeUnit.HOUR) },
-			{ val: TimeUnit.MINUTE, label: this.timeUnitToString(TimeUnit.MINUTE) },
-			{ val: TimeUnit.SECOND, label: this.timeUnitToString(TimeUnit.SECOND) }
+			{ val: 'h', label: this.timeUnitToHumanReadableFormat('h') },
+			{ val: 'm', label: this.timeUnitToHumanReadableFormat('m') },
+			{ val: 's', label: this.timeUnitToHumanReadableFormat('s') }
 		];
 	}
 
-	timeUnitToString(timeUnit: TimeUnit): string {
+	timeUnitToHumanReadableFormat(timeUnit: string): string {
 		switch (timeUnit) {
-			case TimeUnit.HOUR:
+			case 'h':
 				return "Hours";
-			case TimeUnit.MINUTE:
+			case 'm':
 				return "Minutes";
-			case TimeUnit.SECOND:
+			case 's':
 				return "Seconds";
 			default:
-				return "";
+				return "N/A time unit";
 		}
 	}
 

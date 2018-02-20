@@ -1,13 +1,11 @@
-import {TimeUnit} from '../providers/timing/timing'
-
 export interface Profile {
 	id?: number;
 	name?: string;
 	active?: boolean;
 	heat?: number; // millis
-	heatTimeUnit?: TimeUnit;
+	heatTimeUnit?: string;
 	preserve?: number; // millis
-	preserveTimeUnit?: TimeUnit;
+	preserveTimeUnit?: string;
 	rest?: number; // millis
-	restTimeUnit?: TimeUnit;
+	restTimeUnit?: string;
 }
