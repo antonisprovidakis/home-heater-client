@@ -7,7 +7,13 @@ export class TimingProvider {
 	public static readonly MINUTE = 60 * TimingProvider.SECOND;
 	public static readonly HOUR = 60 * TimingProvider.MINUTE;
 
-	timeValues: number[];
+	private timeValues: number[];
+
+	private readonly timingUnits = [
+		{ val: 'h', label: this.timeUnitToHumanReadableFormat('h') },
+		{ val: 'm', label: this.timeUnitToHumanReadableFormat('m') },
+		{ val: 's', label: this.timeUnitToHumanReadableFormat('s') }
+	];
 
 	constructor() {
 	}
@@ -77,11 +83,7 @@ export class TimingProvider {
 	}
 
 	getTimingUnits() {
-		return [
-			{ val: 'h', label: this.timeUnitToHumanReadableFormat('h') },
-			{ val: 'm', label: this.timeUnitToHumanReadableFormat('m') },
-			{ val: 's', label: this.timeUnitToHumanReadableFormat('s') }
-		];
+		return this.timingUnits;
 	}
 
 	timeUnitToHumanReadableFormat(timeUnit: string): string {
@@ -108,3 +110,5 @@ export class TimingProvider {
 	}
 
 }
+
+
