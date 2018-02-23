@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 
+import { Profile } from '../../model/profile.interface';
+import { TimingProvider } from '../../providers/timing/timing';
+
 
 @Injectable()
 export class ArduinoHeaterProvider {
 
-	constructor(private bt: BluetoothSerial) {
+	constructor(private bt: BluetoothSerial, public timing: TimingProvider) {
 
 	}
 
@@ -18,11 +21,18 @@ export class ArduinoHeaterProvider {
 
 	// disconect()
 
+	// isConnected(): boolean
+
 	// turn off()
 
 	// isEnabled() : boolean
 
-	// activateProfile(profile: Profile)
+	activateProfile(profile: Profile){
+	// brake down values
+		const heatMillis = this.timing.minutesToMillis(profile.heat);
+		const preserveMillis = this.timing.minutesToMillis(profile.preserve);
+		const restMillis = this.timing.minutesToMillis(profile.rest);
+	}
 
 	// private saveActiveProfile ??? (maybe this method's functionality is abstracted away in "activateProfile")
 

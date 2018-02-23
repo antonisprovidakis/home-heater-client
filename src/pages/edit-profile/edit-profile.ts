@@ -39,9 +39,6 @@ export class EditProfilePage {
 			heat: [this.oldValues.heat, [Validators.required]],
 			preserve: [this.oldValues.preserve, [Validators.required]],
 			rest: [this.oldValues.rest, [Validators.required]],
-			heatTimeUnit: [this.oldValues.heatTimeUnit, [Validators.required]],
-			preserveTimeUnit: [this.oldValues.preserveTimeUnit, [Validators.required]],
-			restTimeUnit: [this.oldValues.restTimeUnit, [Validators.required]]
 		});
 	}
 
@@ -56,9 +53,6 @@ export class EditProfilePage {
 		const heat = parseInt(this.editProfileForm.get("heat").value);
 		const preserve = parseInt(this.editProfileForm.get("preserve").value);
 		const rest = parseInt(this.editProfileForm.get("rest").value);
-		const heatTimeUnit = this.editProfileForm.get("heatTimeUnit").value as string;
-		const preserveTimeUnit = this.editProfileForm.get("preserveTimeUnit").value as string;
-		const restTimeUnit = this.editProfileForm.get("restTimeUnit").value as string;
 
 		const updatedValues: Profile = {
 			id: this.oldValues.id
@@ -76,28 +70,17 @@ export class EditProfilePage {
 		if (rest !== this.oldValues.rest) {
 			updatedValues.rest = rest;
 		}
-		if (heatTimeUnit !== this.oldValues.heatTimeUnit) {
-			updatedValues.heatTimeUnit = heatTimeUnit;
-		}
-		if (preserveTimeUnit !== this.oldValues.preserveTimeUnit) {
-			updatedValues.preserveTimeUnit = preserveTimeUnit;
-		}
-		if (restTimeUnit !== this.oldValues.restTimeUnit) {
-			updatedValues.restTimeUnit = restTimeUnit;
-		}
 
 		this.dismiss(updatedValues);
 	}
 
 	onCancelClicked() {
-		// if (this.editProfileForm.valid) {
-		// 	this.showConfirmAlert();
-		// }
-		// else {
-		// 	this.dismiss(null);
-		// }
-
-		this.dismiss(null);
+		if (this.editProfileForm.valid) {
+			this.showConfirmAlert();
+		}
+		else {
+			this.dismiss(null);
+		}
 	}
 
 	dismiss(updates: Profile) {

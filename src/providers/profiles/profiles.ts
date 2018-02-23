@@ -98,11 +98,8 @@ export class ProfilesProvider {
 					name: this.createName(newProfileValues.name, newId),
 					active: false,
 					heat: newProfileValues.heat,
-					heatTimeUnit: newProfileValues.heatTimeUnit,
 					preserve: newProfileValues.preserve,
-					preserveTimeUnit: newProfileValues.preserveTimeUnit,
 					rest: newProfileValues.rest,
-					restTimeUnit: newProfileValues.restTimeUnit
 				};
 
 				p.push(profile);
@@ -144,9 +141,6 @@ export class ProfilesProvider {
 				p.heat = updates.heat || p.heat;
 				p.preserve = updates.preserve || p.preserve;
 				p.rest = updates.rest || p.rest;
-				p.heatTimeUnit = updates.heatTimeUnit || p.heatTimeUnit;
-				p.preserveTimeUnit = updates.preserveTimeUnit || p.preserveTimeUnit;
-				p.restTimeUnit = updates.restTimeUnit || p.restTimeUnit;
 
 				this.storage.set("profiles", profiles)
 					.then(() => {
@@ -194,33 +188,24 @@ export class ProfilesProvider {
 				name: 'Profile 1',
 				active: true,
 				heat: 105,
-				heatTimeUnit: 'm',
 				preserve: 2,
-				preserveTimeUnit: 'm',
 				rest: 2,
-				restTimeUnit: 'm'
 			},
 			{
 				id: 2,
 				name: 'Profile 2',
 				active: false,
 				heat: 60,
-				heatTimeUnit: 'm',
 				preserve: 3,
-				preserveTimeUnit: 'm',
 				rest: 20,
-				restTimeUnit: 's'
 			},
 			{
 				id: 3,
 				name: 'Profile 3',
 				active: false,
 				heat: 30,
-				heatTimeUnit: 'm',
 				preserve: 45,
-				preserveTimeUnit: 's',
 				rest: 4,
-				restTimeUnit: 'm'
 			}
 		];
 	}

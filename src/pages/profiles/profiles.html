@@ -12,15 +12,15 @@
 			<h2>{{p.name}}</h2>
 			<p>Heat:
 				<span>{{timing.stringifyInfinite(p.heat)}}</span>
-				<span *ngIf="p.heat>0">{{timing.timeUnitToHumanReadableFormat(p.heatTimeUnit)}}</span>
+				<span *ngIf="p.heat>0">Minutes</span>
 			</p>
 			<p>Preseve:
 				<span>{{timing.stringifyInfinite(p.preserve)}}</span>
-				<span *ngIf="p.preserve>0">{{timing.timeUnitToHumanReadableFormat(p.preserveTimeUnit)}}</span>
+				<span *ngIf="p.preserve>0">Minutes</span>
 			</p>
 			<p>Rest:
 				<span>{{timing.stringifyInfinite(p.rest)}}</span>
-				<span *ngIf="p.rest>0">{{timing.timeUnitToHumanReadableFormat(p.restTimeUnit)}}</span>
+				<span *ngIf="p.rest>0">Minutes</span>
 			</p>
 			<ion-badge item-end *ngIf="p.active" color="secondary">Active</ion-badge>
 			<button class="button_profile_options" ion-button item-end icon-only clear (click)="showProfileOptions(p)">

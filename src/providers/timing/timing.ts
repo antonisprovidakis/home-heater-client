@@ -7,40 +7,32 @@ export class TimingProvider {
 	public static readonly MINUTE = 60 * TimingProvider.SECOND;
 	public static readonly HOUR = 60 * TimingProvider.MINUTE;
 
-	private timeValues: number[];
-
-	private readonly timingUnits = [
-		{ val: 'h', label: this.timeUnitToHumanReadableFormat('h') },
-		{ val: 'm', label: this.timeUnitToHumanReadableFormat('m') },
-		{ val: 's', label: this.timeUnitToHumanReadableFormat('s') }
-	];
+	// private timeValues: number[];
 
 	constructor() {
+		// this.timeValues = this.timeValues = this.createArrayWithinRange(-1, 59);
 	}
 
-	// TODO: more user friendly implementation.
-	// e.g. to format: hh:mm:ss
+	// millisBasedOnTimeUnit(timeUnit: string, value: number): number {
+	// 	if (value === -1) {
+	// 		return -1; // it's infinite
+	// 	}
 
-	millisBasedOnTimeUnit(timeUnit: string, value: number): number {
-		if (value === -1) {
-			return -1; // it's infinite
-		}
+	// 	switch (timeUnit) {
+	// 		case 'h':
+	// 			return this.hoursToMillis(value);
+	// 		case 'm':
+	// 			return this.minutesToMillis(value);
+	// 		case 's':
+	// 			return this.secondsToMillis(value);
+	// 		default:
+	// 			return value;
+	// 	}
+	// }
 
-		switch (timeUnit) {
-			case 'h':
-				return this.hoursToMillis(value);
-			case 'm':
-				return this.minutesToMillis(value);
-			case 's':
-				return this.secondsToMillis(value);
-			default:
-				return value;
-		}
-	}
-
-	hoursToMillis(hours: number): number {
-		return hours * TimingProvider.HOUR;
-	}
+	// hoursToMillis(hours: number): number {
+	// 	return hours * TimingProvider.HOUR;
+	// }
 
 	minutesToMillis(minutes: number): number {
 		return minutes * TimingProvider.MINUTE;
@@ -54,23 +46,17 @@ export class TimingProvider {
 		return millis * TimingProvider.MINUTE;
 	}
 
-	millisToHours(millis: number): number {
-		return millis * TimingProvider.HOUR;
-	}
+	// millisToHours(millis: number): number {
+	// 	return millis * TimingProvider.HOUR;
+	// }
 
 	millisToSeconds(millis: number): number {
 		return millis * TimingProvider.SECOND;
 	}
 
-	getTimingValues(): number[] {
-		if (!this.timeValues) {
-			const low = -1;
-			const high = 60;
-			this.timeValues = this.createArrayWithinRange(low, high);
-		}
-
-		return this.timeValues;
-	}
+	// getTimingValues(): number[] {
+	// 	return this.timeValues;
+	// }
 
 	private createArrayWithinRange(low: number, high: number): number[] {
 		const values: number[] = [];
@@ -82,22 +68,18 @@ export class TimingProvider {
 		return values;
 	}
 
-	getTimingUnits() {
-		return this.timingUnits;
-	}
-
-	timeUnitToHumanReadableFormat(timeUnit: string): string {
-		switch (timeUnit) {
-			case 'h':
-				return "Hours";
-			case 'm':
-				return "Minutes";
-			case 's':
-				return "Seconds";
-			default:
-				return "N/A time unit";
-		}
-	}
+	// timeUnitToHumanReadableFormat(timeUnit: string): string {
+	// 	switch (timeUnit) {
+	// 		case 'h':
+	// 			return "Hours";
+	// 		case 'm':
+	// 			return "Minutes";
+	// 		case 's':
+	// 			return "Seconds";
+	// 		default:
+	// 			return "N/A time unit";
+	// 	}
+	// }
 
 	// Helper method
 	stringifyInfinite(value: number): string {

@@ -13,37 +13,29 @@
 </ion-header>
 
 <ion-content padding>
+
 	<ion-list>
 
 		<form [formGroup]="newProfileForm">
 
 			<ion-item>
-				<ion-label>Name (Optional)</ion-label>
+				<ion-label>Name (Optiona)</ion-label>
 				<ion-input type="text" formControlName="name"></ion-input>
 			</ion-item>
 
 			<ion-item>
-				<ion-label>Heat time</ion-label>
+				<ion-label>Heat time (Minutes)</ion-label>
 				<ion-input type="number" formControlName="heat"></ion-input>
-				<ion-select formControlName="heatTimeUnit">
-					<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val">{{u.label}}</ion-option>
-				</ion-select>
 			</ion-item>
 
 			<ion-item>
-				<ion-label>Preserve time</ion-label>
+				<ion-label>Preserve time (Minutes)</ion-label>
 				<ion-input type="number" formControlName="preserve"></ion-input>
-				<ion-select formControlName="preserveTimeUnit">
-					<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val">{{u.label}}</ion-option>
-				</ion-select>
 			</ion-item>
 
 			<ion-item>
-				<ion-label>Rest time</ion-label>
+				<ion-label>Rest time (Minutes)</ion-label>
 				<ion-input type="number" formControlName="rest"></ion-input>
-				<ion-select formControlName="restTimeUnit">>
-					<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val">{{u.label}}</ion-option>
-				</ion-select>
 			</ion-item>
 
 		</form>

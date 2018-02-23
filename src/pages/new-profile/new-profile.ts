@@ -32,10 +32,7 @@ export class NewProfilePage {
 			name: ['', [Validators.required]],
 			heat: ['', [Validators.required]],
 			preserve: ['', [Validators.required]],
-			rest: ['', [Validators.required]],
-			heatTimeUnit: ['m', [Validators.required]],
-			preserveTimeUnit: ['m', [Validators.required]],
-			restTimeUnit: ['m', [Validators.required]]
+			rest: ['', [Validators.required]]
 		});
 
 	}
@@ -51,32 +48,24 @@ export class NewProfilePage {
 		const heat = parseInt(this.newProfileForm.get("heat").value);
 		const preserve = parseInt(this.newProfileForm.get("preserve").value);
 		const rest = parseInt(this.newProfileForm.get("rest").value);
-		const heatTimeUnit = this.newProfileForm.get("heatTimeUnit").value as string;
-		const preserveTimeUnit = this.newProfileForm.get("preserveTimeUnit").value as string;
-		const restTimeUnit = this.newProfileForm.get("restTimeUnit").value as string;
 
 		const newProfileData: Profile = {
 			name: name,
 			heat: heat,
-			heatTimeUnit: heatTimeUnit,
 			preserve: preserve,
-			preserveTimeUnit: preserveTimeUnit,
-			rest: rest,
-			restTimeUnit: restTimeUnit
+			rest: rest
 		};
 
 		this.dismiss(newProfileData);
 	}
 
 	onCancelClicked() {
-		// if (this.newProfileForm.valid) {
-		// 	this.showConfirmAlert();
-		// }
-		// else {
-		// 	this.dismiss(null);
-		// }
-
-		this.dismiss(null);
+		if (this.newProfileForm.valid) {
+			this.showConfirmAlert();
+		}
+		else {
+			this.dismiss(null);
+		}
 	}
 
 	private showConfirmAlert() {

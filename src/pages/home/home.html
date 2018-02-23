@@ -25,15 +25,15 @@
 		<br>
 		<span>Heat: </span>
 		<span>{{timing.stringifyInfinite(activeProfile.heat)}}</span>
-		<span *ngIf="activeProfile.heat>0">{{timing.timeUnitToHumanReadableFormat(activeProfile.heatTimeUnit)}}</span>
+		<span *ngIf="activeProfile.heat>0">Minutes</span>
 		<br>
 		<span>Preserve: </span>
 		<span>{{timing.stringifyInfinite(activeProfile.preserve)}}</span>
-		<span *ngIf="activeProfile.preserve>0">{{timing.timeUnitToHumanReadableFormat(activeProfile.preserveTimeUnit)}}</span>
+		<span *ngIf="activeProfile.preserve>0">Minutes</span>
 		<br>
 		<span>Rest: </span>
 		<span>{{timing.stringifyInfinite(activeProfile.rest)}}</span>
-		<span *ngIf="activeProfile.rest>0">{{timing.timeUnitToHumanReadableFormat(activeProfile.restTimeUnit)}}</span>
+		<span *ngIf="activeProfile.rest>0">Minutes</span>
 	</div>
 
 	<button id="turnOffButton" *ngIf="enabled" ion-button color="danger" full icon-only large round (click)="onTurnOffButtonClicked()">
