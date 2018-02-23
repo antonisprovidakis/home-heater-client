@@ -5,8 +5,9 @@ import {
 	Platform
 } from 'ionic-angular';
 
-import { Profile } from '../../model/profile.interface';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
+import { Profile } from '../../model/profile.interface';
 import { TimingProvider } from '../../providers/timing/timing';
 
 
@@ -16,25 +17,27 @@ import { TimingProvider } from '../../providers/timing/timing';
 })
 export class NewProfilePage {
 
-	name: string;
-
-	heat: number;
-	preserve: number;
-	rest: number;
-	heatTimeUnit: string;
-	preserveTimeUnit: string;
-	restTimeUnit: string;
+	newProfileForm: FormGroup;
 
 	constructor(
 		public viewCtrl: ViewController,
 		public alertCtrl: AlertController,
 		public timing: TimingProvider,
-		public platform: Platform
+		public platform: Platform,
+		private formBuilder: FormBuilder
 	) {
 
-		this.heatTimeUnit = 'm';
-		this.preserveTimeUnit = 'm';
-		this.restTimeUnit = 'm';
+		// TODO: add validation to form
+		this.newProfileForm = this.formBuilder.group({
+			name: ['', [Validators.required]],
+			heat: ['', [Validators.required]],
+			preserve: ['', [Validators.required]],
+			rest: ['', [Validators.required]],
+			heatTimeUnit: ['m', [Validators.required]],
+			preserveTimeUnit: ['m', [Validators.required]],
+			restTimeUnit: ['m', [Validators.required]]
+		});
+
 	}
 
 	ionViewDidLoad() {
@@ -43,41 +46,37 @@ export class NewProfilePage {
 		});
 	}
 
-	checkDataFilled() {
-		return !(this.heat === undefined
-			|| this.preserve === undefined
-			|| this.rest === undefined);
-	}
-
 	createProfile() {
-		// const name = this.name;
-		// const heat = this.heat;
-		// const preserve = this.preserve;
-		// const rest = this.rest;
-		// const heat = this.timing.millisBasedOnTimeUnit(this.heatTimeUnit, this.heat);
-		// const preserve = this.timing.millisBasedOnTimeUnit(this.preserveTimeUnit, this.preserve);
-		// const rest = this.timing.millisBasedOnTimeUnit(this.restTimeUnit, this.rest);
+		const name = this.newProfileForm.get("name").value as string;
+		const heat = parseInt(this.newProfileForm.get("heat").value);
+		const preserve = parseInt(this.newProfileForm.get("preserve").value);
+		const rest = parseInt(this.newProfileForm.get("rest").value);
+		const heatTimeUnit = this.newProfileForm.get("heatTimeUnit").value as string;
+		const preserveTimeUnit = this.newProfileForm.get("preserveTimeUnit").value as string;
+		const restTimeUnit = this.newProfileForm.get("restTimeUnit").value as string;
 
 		const newProfileData: Profile = {
-			name: this.name,
-			heat: this.heat,
-			heatTimeUnit: this.heatTimeUnit,
-			preserve: this.preserve,
-			preserveTimeUnit: this.preserveTimeUnit,
-			rest: this.rest,
-			restTimeUnit: this.restTimeUnit
+			name: name,
+			heat: heat,
+			heatTimeUnit: heatTimeUnit,
+			preserve: preserve,
+			preserveTimeUnit: preserveTimeUnit,
+			rest: rest,
+			restTimeUnit: restTimeUnit
 		};
 
 		this.dismiss(newProfileData);
 	}
 
 	onCancelClicked() {
-		if (this.checkDataFilled()) {
-			this.showConfirmAlert();
-		}
-		else {
-			this.dismiss(null);
-		}
+		// if (this.newProfileForm.valid) {
+		// 	this.showConfirmAlert();
+		// }
+		// else {
+		// 	this.dismiss(null);
+		// }
+
+		this.dismiss(null);
 	}
 
 	private showConfirmAlert() {

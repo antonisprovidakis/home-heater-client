@@ -13,43 +13,40 @@
 </ion-header>
 
 <ion-content padding>
-
 	<ion-list>
 
-		<ion-item>
-			<ion-label floating>Name (Optional)</ion-label>
-			<ion-input type="text" [(ngModel)]="name"></ion-input>
-		</ion-item>
+		<form [formGroup]="editProfileForm">
 
-		<ion-item>
-			<ion-label>Heating time</ion-label>
-			<ion-select [(ngModel)]="heat">
-				<ion-option *ngFor="let v of timing.getTimingValues()" [value]="v">{{timing.stringifyInfinite(v)}}</ion-option>
-			</ion-select>
-			<ion-select [(ngModel)]="heatTimeUnit">
+			<ion-item>
+				<ion-label>Name (Optional)</ion-label>
+				<ion-input type="text" formControlName="name"></ion-input>
+			</ion-item>
+
+			<ion-item>
+				<ion-label>Heat time</ion-label>
+				<ion-input type="number" formControlName="heat"></ion-input>
+				<ion-select formControlName="heatTimeUnit">
 					<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val">{{u.label}}</ion-option>
 				</ion-select>
-		</ion-item>
+			</ion-item>
 
-		<ion-item>
-			<ion-label>Preservation time</ion-label>
-			<ion-select [(ngModel)]="preserve">
-				<ion-option *ngFor="let v of timing.getTimingValues()" [value]="v">{{timing.stringifyInfinite(v)}}</ion-option>
-			</ion-select>
-			<ion-select [(ngModel)]="preserveTimeUnit">
+			<ion-item>
+				<ion-label>Preserve time</ion-label>
+				<ion-input type="number" formControlName="preserve"></ion-input>
+				<ion-select formControlName="preserveTimeUnit">
 					<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val">{{u.label}}</ion-option>
 				</ion-select>
-		</ion-item>
+			</ion-item>
 
-		<ion-item>
-			<ion-label>Rest time</ion-label>
-			<ion-select [(ngModel)]="rest">
-				<ion-option *ngFor="let v of timing.getTimingValues()" [value]="v">{{timing.stringifyInfinite(v)}}</ion-option>
-			</ion-select>
-			<ion-select [(ngModel)]="restTimeUnit">
+			<ion-item>
+				<ion-label>Rest time</ion-label>
+				<ion-input type="number" formControlName="rest"></ion-input>
+				<ion-select formControlName="restTimeUnit">>
 					<ion-option *ngFor="let u of timing.getTimingUnits()" [value]="u.val">{{u.label}}</ion-option>
 				</ion-select>
-		</ion-item>
+			</ion-item>
+
+		</form>
 
 	</ion-list>
 
@@ -57,6 +54,6 @@
 
 <ion-footer>
 	<ion-toolbar>
-		<button ion-button full (click)="saveChanges()" [disabled]="!checkDataChanged()">Save</button>
+		<button ion-button full (click)="saveChanges()" [disabled]="!editProfileForm.valid">Save</button>
 	</ion-toolbar>
 </ion-footer>

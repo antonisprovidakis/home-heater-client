@@ -6,6 +6,8 @@ import {
 	Platform
 } from 'ionic-angular';
 
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+
 import { Profile } from '../../model/profile.interface';
 import { ProfilesProvider } from '../../providers/profiles/profiles';
 import { TimingProvider } from '../../providers/timing/timing';
@@ -16,33 +18,31 @@ import { TimingProvider } from '../../providers/timing/timing';
 })
 export class EditProfilePage {
 
-	oldValues: Profile;
+	editProfileForm: FormGroup;
 
-	name: string;
-	heat: number;
-	preserve: number;
-	rest: number;
-	heatTimeUnit: string;
-	preserveTimeUnit: string;
-	restTimeUnit: string;
+	oldValues: Profile;
 
 	constructor(
 		public navParams: NavParams,
 		public viewCtrl: ViewController,
 		public alertCtrl: AlertController,
 		public platform: Platform,
+		private formBuilder: FormBuilder,
 		public timing: TimingProvider,
 		public profilesProvider: ProfilesProvider
 	) {
 		this.oldValues = this.navParams.get('profileToEdit');
 
-		this.name = this.oldValues.name;
-		this.heat = this.oldValues.heat;
-		this.preserve = this.oldValues.preserve;
-		this.rest = this.oldValues.rest;
-		this.heatTimeUnit = this.oldValues.heatTimeUnit;
-		this.preserveTimeUnit = this.oldValues.preserveTimeUnit;
-		this.restTimeUnit = this.oldValues.restTimeUnit;
+		// TODO: add validation to form
+		this.editProfileForm = this.formBuilder.group({
+			name: [this.oldValues.name, [Validators.required]],
+			heat: [this.oldValues.heat, [Validators.required]],
+			preserve: [this.oldValues.preserve, [Validators.required]],
+			rest: [this.oldValues.rest, [Validators.required]],
+			heatTimeUnit: [this.oldValues.heatTimeUnit, [Validators.required]],
+			preserveTimeUnit: [this.oldValues.preserveTimeUnit, [Validators.required]],
+			restTimeUnit: [this.oldValues.restTimeUnit, [Validators.required]]
+		});
 	}
 
 	ionViewDidLoad() {
@@ -51,54 +51,53 @@ export class EditProfilePage {
 		});
 	}
 
-	checkDataChanged() {
-		return !(this.name === this.oldValues.name
-			&& this.heat === this.oldValues.heat
-			&& this.preserve === this.oldValues.preserve
-			&& this.rest === this.oldValues.rest
-			&& this.heatTimeUnit === this.oldValues.heatTimeUnit
-			&& this.preserveTimeUnit === this.oldValues.preserveTimeUnit
-			&& this.restTimeUnit === this.oldValues.restTimeUnit
-		);
-	}
-
 	saveChanges() {
+		const name = this.editProfileForm.get("name").value as string;
+		const heat = parseInt(this.editProfileForm.get("heat").value);
+		const preserve = parseInt(this.editProfileForm.get("preserve").value);
+		const rest = parseInt(this.editProfileForm.get("rest").value);
+		const heatTimeUnit = this.editProfileForm.get("heatTimeUnit").value as string;
+		const preserveTimeUnit = this.editProfileForm.get("preserveTimeUnit").value as string;
+		const restTimeUnit = this.editProfileForm.get("restTimeUnit").value as string;
+
 		const updatedValues: Profile = {
 			id: this.oldValues.id
 		}
 
-		if (this.name !== this.oldValues.name) {
-			updatedValues.name = this.name;
+		if (name !== this.oldValues.name) {
+			updatedValues.name = name;
 		}
-		if (this.heat !== this.oldValues.heat) {
-			updatedValues.heat = this.heat;
+		if (heat !== this.oldValues.heat) {
+			updatedValues.heat = heat;
 		}
-		if (this.preserve !== this.oldValues.preserve) {
-			updatedValues.preserve = this.preserve;
+		if (preserve !== this.oldValues.preserve) {
+			updatedValues.preserve = preserve;
 		}
-		if (this.rest !== this.oldValues.rest) {
-			updatedValues.rest = this.rest;
+		if (rest !== this.oldValues.rest) {
+			updatedValues.rest = rest;
 		}
-		if (this.heatTimeUnit !== this.oldValues.heatTimeUnit) {
-			updatedValues.heatTimeUnit = this.heatTimeUnit;
+		if (heatTimeUnit !== this.oldValues.heatTimeUnit) {
+			updatedValues.heatTimeUnit = heatTimeUnit;
 		}
-		if (this.preserveTimeUnit !== this.oldValues.preserveTimeUnit) {
-			updatedValues.preserveTimeUnit = this.preserveTimeUnit;
+		if (preserveTimeUnit !== this.oldValues.preserveTimeUnit) {
+			updatedValues.preserveTimeUnit = preserveTimeUnit;
 		}
-		if (this.restTimeUnit !== this.oldValues.restTimeUnit) {
-			updatedValues.restTimeUnit = this.restTimeUnit;
+		if (restTimeUnit !== this.oldValues.restTimeUnit) {
+			updatedValues.restTimeUnit = restTimeUnit;
 		}
 
 		this.dismiss(updatedValues);
 	}
 
 	onCancelClicked() {
-		if (this.checkDataChanged()) {
-			this.showConfirmAlert();
-		}
-		else {
-			this.dismiss(null);
-		}
+		// if (this.editProfileForm.valid) {
+		// 	this.showConfirmAlert();
+		// }
+		// else {
+		// 	this.dismiss(null);
+		// }
+
+		this.dismiss(null);
 	}
 
 	dismiss(updates: Profile) {
