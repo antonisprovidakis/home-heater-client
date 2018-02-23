@@ -117,14 +117,18 @@ export class ProfilesProvider {
 	}
 
 	private createName(name: string, id: number): string {
-		if (name) {
-			const trimmedName = name.trim();
-			if (trimmedName.length > 0) {
-				return trimmedName;
-			}
+		if (!name) {
+			return "Profile " + id;
 		}
 
-		return "Profile " + id;
+		const trimmedName = name.trim();
+
+		if (trimmedName.length === 0) {
+			// empty string after trimming
+			return "Profile " + id;
+		}
+
+		return trimmedName;
 	}
 
 	updateProfile(updates: Profile): Promise<Profile> {
@@ -185,15 +189,16 @@ export class ProfilesProvider {
 		// TODO: fill with predefined profiles
 		return [
 			{
+				// THIS IS THE DEFAULT PROFILE
 				id: 1,
 				name: 'Profile 1',
 				active: true,
-				heat: 2,
-				heatTimeUnit: 'h',
-				preserve: 3,
+				heat: 105,
+				heatTimeUnit: 'm',
+				preserve: 2,
 				preserveTimeUnit: 'm',
-				rest: 20,
-				restTimeUnit: 's'
+				rest: 2,
+				restTimeUnit: 'm'
 			},
 			{
 				id: 2,
