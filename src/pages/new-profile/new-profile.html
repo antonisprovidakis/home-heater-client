@@ -19,12 +19,12 @@
 		<form [formGroup]="form">
 
 			<ion-item>
-				<ion-label>Name (Optional)</ion-label>
+				<ion-label floating>Name (Optional)</ion-label>
 				<ion-input type="text" formControlName="name"></ion-input>
 			</ion-item>
 
 			<ion-item>
-				<ion-label>Heat time (Minutes)</ion-label>
+				<ion-label floating>Heat time (Minutes)(-1=Infinity)</ion-label>
 				<ion-input type="number" formControlName="heat"></ion-input>
 			</ion-item>
 
@@ -39,13 +39,18 @@
 				<p class="validation-error">Only numbers must be inserted</p>
 			</ion-item> -->
 
+			<ion-item *ngIf="form.get('heat').hasError('min')	&&
+							form.get('heat').dirty && form.get('heat').touched">
+				<p class="validation-error">Min value for heat interval is -1</p>
+			</ion-item>
+
 			<ion-item *ngIf="form.get('heat').hasError('max')	&&
 							form.get('heat').dirty && form.get('heat').touched">
 				<p class="validation-error">Max value for heat interval is 71582</p>
 			</ion-item>
 
 			<ion-item>
-				<ion-label>Preserve time (Minutes)</ion-label>
+				<ion-label floating>Preserve time (Minutes)</ion-label>
 				<ion-input type="number" formControlName="preserve"></ion-input>
 			</ion-item>
 
@@ -54,19 +59,29 @@
 				<p class="validation-error">Preserve interval is required</p>
 			</ion-item>
 
+			<ion-item *ngIf="form.get('preserve').hasError('min')	&&
+							form.get('preserve').dirty && form.get('preserve').touched">
+				<p class="validation-error">Min value for preserve interval is 0</p>
+			</ion-item>
+
 			<ion-item *ngIf="form.get('preserve').hasError('max')	&&
 							form.get('preserve').dirty && form.get('preserve').touched">
 				<p class="validation-error">Max value for preserve interval is 71582</p>
 			</ion-item>
 
 			<ion-item>
-				<ion-label>Rest time (Minutes)</ion-label>
+				<ion-label floating>Rest time (Minutes)</ion-label>
 				<ion-input type="number" formControlName="rest"></ion-input>
 			</ion-item>
 
 			<ion-item *ngIf="form.get('rest').hasError('required') &&
 							form.get('rest').dirty && form.get('rest').touched">
 				<p class="validation-error">Rest interval is required</p>
+			</ion-item>
+
+			<ion-item *ngIf="form.get('rest').hasError('min')	&&
+							form.get('rest').dirty && form.get('rest').touched">
+				<p class="validation-error">Min value for rest interval is 0</p>
 			</ion-item>
 
 			<ion-item *ngIf="form.get('rest').hasError('max')	&&
@@ -77,6 +92,10 @@
 		</form>
 
 	</ion-list>
+
+	<!-- <div>
+		<p>*Use -1 to </p>
+	</div> -->
 
 </ion-content>
 

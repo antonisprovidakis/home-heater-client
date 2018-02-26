@@ -30,17 +30,11 @@ export class NewProfilePage {
 		// TODO: add validation to accept only numbers (not ".", ",", "e") to form
 		this.form = this.formBuilder.group({
 			name: [''],
-			heat: ['', [Validators.required, Validators.max(71582)]],
-			preserve: ['', [Validators.required, Validators.max(71582)]],
-			rest: ['', [Validators.required, Validators.max(71582)]],
+			heat: ['', [Validators.required, Validators.min(-1), Validators.max(71582)]],
+			preserve: ['', [Validators.required, Validators.min(0), Validators.max(71582)]],
+			rest: ['', [Validators.required, Validators.min(0), Validators.max(71582)]],
 		});
 
-	}
-
-	ionViewDidLoad() {
-		this.platform.registerBackButtonAction(() => {
-			this.onCancelClicked();
-		});
 	}
 
 	createProfile() {
