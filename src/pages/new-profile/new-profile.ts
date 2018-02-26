@@ -17,7 +17,7 @@ import { TimingProvider } from '../../providers/timing/timing';
 })
 export class NewProfilePage {
 
-	newProfileForm: FormGroup;
+	form: FormGroup;
 
 	constructor(
 		public viewCtrl: ViewController,
@@ -27,12 +27,12 @@ export class NewProfilePage {
 		private formBuilder: FormBuilder
 	) {
 
-		// TODO: add validation to form
-		this.newProfileForm = this.formBuilder.group({
-			name: ['', [Validators.required]],
-			heat: ['', [Validators.required]],
-			preserve: ['', [Validators.required]],
-			rest: ['', [Validators.required]]
+		// TODO: add validation to accept only numbers (not ".", ",", "e") to form
+		this.form = this.formBuilder.group({
+			name: [''],
+			heat: ['', [Validators.required, Validators.max(71582)]],
+			preserve: ['', [Validators.required, Validators.max(71582)]],
+			rest: ['', [Validators.required, Validators.max(71582)]],
 		});
 
 	}
@@ -44,10 +44,10 @@ export class NewProfilePage {
 	}
 
 	createProfile() {
-		const name = this.newProfileForm.get("name").value as string;
-		const heat = parseInt(this.newProfileForm.get("heat").value);
-		const preserve = parseInt(this.newProfileForm.get("preserve").value);
-		const rest = parseInt(this.newProfileForm.get("rest").value);
+		const name = this.form.get("name").value as string;
+		const heat = parseInt(this.form.get("heat").value);
+		const preserve = parseInt(this.form.get("preserve").value);
+		const rest = parseInt(this.form.get("rest").value);
 
 		const newProfileData: Profile = {
 			name: name,
@@ -60,7 +60,7 @@ export class NewProfilePage {
 	}
 
 	onCancelClicked() {
-		if (this.newProfileForm.valid) {
+		if (this.form.valid) {
 			this.showConfirmAlert();
 		}
 		else {

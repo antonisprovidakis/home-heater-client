@@ -15,10 +15,10 @@
 <ion-content padding>
 	<ion-list>
 
-		<form [formGroup]="editProfileForm">
+		<form [formGroup]="form">
 
 			<ion-item>
-				<ion-label>Name (Optiona)</ion-label>
+				<ion-label>Name (Optional)</ion-label>
 				<ion-input type="text" formControlName="name"></ion-input>
 			</ion-item>
 
@@ -27,14 +27,50 @@
 				<ion-input type="number" formControlName="heat"></ion-input>
 			</ion-item>
 
+			<ion-item *ngIf="form.get('heat').hasError('required') &&
+							form.get('heat').dirty && form.get('heat').touched">
+				<p class="validation-error">Heat interval is required</p>
+			</ion-item>
+
+			<!-- Doesn't work due to an Angular bug -->
+			<!-- <ion-item *ngIf="form.get('heat').hasError('pattern') &&
+							form.get('heat').dirty && form.get('heat').touched">
+				<p class="validation-error">Only numbers must be inserted</p>
+			</ion-item> -->
+
+			<ion-item *ngIf="form.get('heat').hasError('max')	&&
+							form.get('heat').dirty && form.get('heat').touched">
+				<p class="validation-error">Max value for heat interval is 71582</p>
+			</ion-item>
+
 			<ion-item>
 				<ion-label>Preserve time (Minutes)</ion-label>
 				<ion-input type="number" formControlName="preserve"></ion-input>
 			</ion-item>
 
+			<ion-item *ngIf="form.get('preserve').hasError('required') &&
+							form.get('preserve').dirty && form.get('preserve').touched">
+				<p class="validation-error">Preserve interval is required</p>
+			</ion-item>
+
+			<ion-item *ngIf="form.get('preserve').hasError('max')	&&
+							form.get('preserve').dirty && form.get('preserve').touched">
+				<p class="validation-error">Max value for preserve interval is 71582</p>
+			</ion-item>
+
 			<ion-item>
 				<ion-label>Rest time (Minutes)</ion-label>
 				<ion-input type="number" formControlName="rest"></ion-input>
+			</ion-item>
+
+			<ion-item *ngIf="form.get('rest').hasError('required') &&
+							form.get('rest').dirty && form.get('rest').touched">
+				<p class="validation-error">Rest interval is required</p>
+			</ion-item>
+
+			<ion-item *ngIf="form.get('rest').hasError('max')	&&
+							form.get('rest').dirty && form.get('rest').touched">
+				<p class="validation-error">Max value for rest interval is 71582</p>
 			</ion-item>
 
 		</form>
@@ -45,6 +81,6 @@
 
 <ion-footer>
 	<ion-toolbar>
-		<button ion-button full (click)="saveChanges()" [disabled]="!editProfileForm.valid">Save</button>
+		<button ion-button full (click)="saveChanges()" [disabled]="!form.valid">Save</button>
 	</ion-toolbar>
 </ion-footer>

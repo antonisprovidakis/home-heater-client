@@ -18,7 +18,7 @@ import { TimingProvider } from '../../providers/timing/timing';
 })
 export class EditProfilePage {
 
-	editProfileForm: FormGroup;
+	form: FormGroup;
 
 	oldValues: Profile;
 
@@ -33,12 +33,12 @@ export class EditProfilePage {
 	) {
 		this.oldValues = this.navParams.get('profileToEdit');
 
-		// TODO: add validation to form
-		this.editProfileForm = this.formBuilder.group({
-			name: [this.oldValues.name, [Validators.required]],
-			heat: [this.oldValues.heat, [Validators.required]],
-			preserve: [this.oldValues.preserve, [Validators.required]],
-			rest: [this.oldValues.rest, [Validators.required]],
+		// TODO: add validation to accept only numbers (not ".", ",", "e") to form
+		this.form = this.formBuilder.group({
+			name: [this.oldValues.name],
+			heat: [this.oldValues.heat, [Validators.required, Validators.max(71582)]],
+			preserve: [this.oldValues.preserve, [Validators.required, Validators.max(71582)]],
+			rest: [this.oldValues.rest, [Validators.required, Validators.max(71582)]],
 		});
 	}
 
@@ -49,10 +49,10 @@ export class EditProfilePage {
 	}
 
 	saveChanges() {
-		const name = this.editProfileForm.get("name").value as string;
-		const heat = parseInt(this.editProfileForm.get("heat").value);
-		const preserve = parseInt(this.editProfileForm.get("preserve").value);
-		const rest = parseInt(this.editProfileForm.get("rest").value);
+		const name = this.form.get("name").value as string;
+		const heat = parseInt(this.form.get("heat").value);
+		const preserve = parseInt(this.form.get("preserve").value);
+		const rest = parseInt(this.form.get("rest").value);
 
 		const updatedValues: Profile = {
 			id: this.oldValues.id
@@ -75,7 +75,7 @@ export class EditProfilePage {
 	}
 
 	onCancelClicked() {
-		if (this.editProfileForm.valid) {
+		if (this.form.valid) {
 			this.showConfirmAlert();
 		}
 		else {

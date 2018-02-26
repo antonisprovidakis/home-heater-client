@@ -1,3 +1,5 @@
 page-edit-profile {
-
+	.validation-error {
+    color: color($colors, danger);
+  }
 }
