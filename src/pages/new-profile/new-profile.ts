@@ -8,8 +8,6 @@ import {
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { Profile } from '../../model/profile.interface';
-import { TimingProvider } from '../../providers/timing/timing';
-
 
 @Component({
 	selector: 'page-new-profile',
@@ -22,7 +20,6 @@ export class NewProfilePage {
 	constructor(
 		public viewCtrl: ViewController,
 		public alertCtrl: AlertController,
-		public timing: TimingProvider,
 		public platform: Platform,
 		private formBuilder: FormBuilder
 	) {

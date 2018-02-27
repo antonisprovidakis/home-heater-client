@@ -1,9 +1,12 @@
 <ion-header>
-
-	<ion-navbar>
+	<ion-toolbar>
 		<ion-title>Profiles</ion-title>
-	</ion-navbar>
-
+		<ion-buttons end>
+			<button ion-button icon-only color="black" (click)="showMoreOptions($event)">
+				<ion-icon name="more"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content padding>
@@ -11,20 +14,20 @@
 		<ion-item *ngFor="let p of profiles">
 			<h2>{{p.name}}</h2>
 			<p>Heat:
-				<span>{{timing.stringifyInfinite(p.heat)}}</span>
+				<span>{{stringifyInfinite(p.heat)}}</span>
 				<span *ngIf="p.heat>0">Minutes</span>
 			</p>
 			<p>Preseve:
-				<span>{{timing.stringifyInfinite(p.preserve)}}</span>
+				<span>{{stringifyInfinite(p.preserve)}}</span>
 				<span *ngIf="p.preserve>0">Minutes</span>
 			</p>
 			<p>Rest:
-				<span>{{timing.stringifyInfinite(p.rest)}}</span>
+				<span>{{stringifyInfinite(p.rest)}}</span>
 				<span *ngIf="p.rest>0">Minutes</span>
 			</p>
-			<ion-badge item-end *ngIf="p.active" color="secondary">Active</ion-badge>
-			<button class="button_profile_options" ion-button item-end icon-only clear (click)="showProfileOptions(p)">
-				<ion-icon name="more"></ion-icon>
+			<ion-badge item-end *ngIf="p.active" color="success">Active</ion-badge>
+			<button ion-button item-end icon-only clear (click)="showProfileOptions(p)">
+				<ion-icon name="more" color="black"></ion-icon>
 			</button>
 		</ion-item>
 	</ion-list>

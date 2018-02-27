@@ -1,39 +1,190 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 
 import { Profile } from '../../model/profile.interface';
-import { TimingProvider } from '../../providers/timing/timing';
 
+const MAC_ADDRESS: string = "20:17:11:06:16:62";
+
+const HEATER_FUNCTION: string = "HF";
+const PROFILE_UPDATE: string = "PU";
+const CHECK_ENABLED: string = "check_enabled";
+
+const SECOND: number = 1000;
+const MINUTE: number = 60 * SECOND;
+const HOUR: number = 60 * MINUTE;
 
 @Injectable()
 export class ArduinoHeaterProvider {
 
-	constructor(private bt: BluetoothSerial, public timing: TimingProvider) {
+	heaterConnected: boolean;
+	heaterEnabled: boolean;
+	disabledTimestamp: number;
 
+	constructor(
+		private ngZone: NgZone,
+		private bt: BluetoothSerial
+	) {
 	}
 
-	/*
-		Some methods are defined below
-	 */
-
-	// connect()
-
-	// disconect()
-
-	// isConnected(): boolean
-
-	// turn off()
-
-	// isEnabled() : boolean
-
-	activateProfile(profile: Profile){
-	// brake down values
-		const heatMillis = this.timing.minutesToMillis(profile.heat);
-		const preserveMillis = this.timing.minutesToMillis(profile.preserve);
-		const restMillis = this.timing.minutesToMillis(profile.rest);
+	sendMessage(msg: string) {
+		return this.bt.write(msg);
 	}
 
-	// private saveActiveProfile ??? (maybe this method's functionality is abstracted away in "activateProfile")
+	enableBT() {
+		return this.bt.enable();
+	}
+
+	connectToHeater(): Promise<void> {
+		return new Promise((resolve, reject) => {
+			this.bt.connect(MAC_ADDRESS).subscribe(
+				() => {
+					this.ngZone.run(() => {
+						this.heaterConnected = true;
+
+						this.checkHeaterEnabled()
+							.then(() => resolve())
+							.catch((e) => reject(e));
+					});
+				},
+				(e) => {
+					this.heaterConnected = false;
+					reject();
+				});
+		});
+	}
+
+	disconnectFromHeater() {
+		this.bt.disconnect()
+			.then(() => {
+				this.heaterConnected = false;
+				this.heaterEnabled = null;
+			})
+			.catch((e) => console.log("error: ", e));
+	}
+
+	disableHeater() {
+		const commandType = HEATER_FUNCTION;
+		const params = {
+			enabled: false
+		};
+
+		const msg = this.buildMessage(commandType, params);
+		this.sendMessage(msg)
+			.then(() => {
+				this.disabledTimestamp = Date.now();
+				this.heaterEnabled = false;
+			});
+	}
+
+	enableHeater() {
+		const commandType = HEATER_FUNCTION;
+		const params = {
+			enabled: true
+		};
+
+		const msg = this.buildMessage(commandType, params);
+		this.sendMessage(msg)
+			.then(() => {
+				this.heaterEnabled = true;
+				this.disabledTimestamp = null;
+			});
+	}
+
+	checkHeaterEnabled(): Promise<boolean> {
+		return new Promise((resolve, reject) => {
+			const msg = this.buildMessage(CHECK_ENABLED);
+
+			this.sendMessage(msg)
+				.then(() => {
+					this.bt.readUntil("\n")
+					this.bt.subscribe("~").subscribe((data: string) => {
+						// TODO: this part needs some debugging because it received arduino buffer garbage
+						const textToSearch = CHECK_ENABLED + "=";
+						const index = data.indexOf(textToSearch);
+
+						if (index == -1) { // not found
+							return reject(new Error("Not a 'check_enabled' response received"));
+						}
+
+						const response = data.slice(index, index + textToSearch.length + 1);
+
+						const enabled = !! + response.split("=")[1];
+						this.heaterEnabled = enabled;
+						resolve();
+					});
+				})
+				.catch((e) => {
+					reject(e);
+				});
+		});
+	}
+
+	activateProfile(profile: Profile) {
+		// const heatMillis = this.minutesToMillis(profile.heat);
+		// const preserveMillis = this.minutesToMillis(profile.preserve);
+		// const restMillis = this.minutesToMillis(profile.rest);
+
+		// TODO: remove this block after debugging
+		const heatMillis = this.secondsToMillis(profile.heat);
+		const preserveMillis = this.secondsToMillis(profile.preserve);
+		const restMillis = this.secondsToMillis(profile.rest);
+
+
+		const commandType = PROFILE_UPDATE;
+		const params = {
+			id: profile.id,
+			heat: heatMillis,
+			preserve: preserveMillis,
+			rest: restMillis
+		};
+
+		const msg = this.buildMessage(commandType, params);
+		return this.sendMessage(msg);
+	}
+
+	private buildMessage(commandType: string, params?: any): string {
+		let msg = this.createCommandPart(commandType);
+
+		if (params) {
+			msg = msg + this.createParametersPart(params);
+		}
+
+		return this.wrapMessageInDelimeters(msg);
+	}
+
+	private createParametersPart(params: any): string {
+		let paramPart = "";
+
+		for (const key in params) {
+			paramPart = paramPart + "," + key + "=" + params[key];
+		}
+
+		return paramPart;
+	}
+
+	private createCommandPart(commandType): string {
+		return "command=" + commandType;
+	}
+
+	private wrapMessageInDelimeters(msg: string): string {
+		return "<" + msg + ">";
+	}
+
+	private minutesToMillis(minutes: number): number {
+		return minutes * MINUTE;
+	}
+
+	//private millisToMinutes(millis: number): number {
+	// 	return millis * MINUTE;
+	// }
+
+	private secondsToMillis(seconds: number): number {
+		return seconds * SECOND;
+	}
+
+	//private millisToSeconds(millis: number): number {
+	// 	return millis * SECOND;
+	// }
 
 }

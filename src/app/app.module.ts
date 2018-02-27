@@ -8,7 +8,7 @@ import { MyApp } from './app.component';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { HomePage } from '../pages/home/home';
-import {ProfilesPage} from '../pages/profiles/profiles';
+import {ProfilesPage, ProfilesPopoverPage} from '../pages/profiles/profiles';
 import {NewProfilePage} from '../pages/new-profile/new-profile';
 import {EditProfilePage} from '../pages/edit-profile/edit-profile';
 
@@ -18,7 +18,6 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 
 
 import { ProfilesProvider } from '../providers/profiles/profiles';
-import { TimingProvider } from '../providers/timing/timing';
 import { ArduinoHeaterProvider } from '../providers/arduino-heater/arduino-heater';
 
 @NgModule({
@@ -27,6 +26,7 @@ import { ArduinoHeaterProvider } from '../providers/arduino-heater/arduino-heate
 		TabsPage,
 		HomePage,
 		ProfilesPage,
+		ProfilesPopoverPage,
 		NewProfilePage,
 		EditProfilePage
   ],
@@ -41,6 +41,7 @@ import { ArduinoHeaterProvider } from '../providers/arduino-heater/arduino-heate
 		TabsPage,
 		HomePage,
 		ProfilesPage,
+		ProfilesPopoverPage,
 		NewProfilePage,
 		EditProfilePage
   ],
@@ -50,7 +51,6 @@ import { ArduinoHeaterProvider } from '../providers/arduino-heater/arduino-heate
 		{provide: ErrorHandler, useClass: IonicErrorHandler},
 		BluetoothSerial,
     ProfilesProvider,
-    TimingProvider,
     ArduinoHeaterProvider
   ]
 })

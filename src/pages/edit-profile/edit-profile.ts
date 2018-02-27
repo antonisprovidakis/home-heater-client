@@ -10,7 +10,6 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { Profile } from '../../model/profile.interface';
 import { ProfilesProvider } from '../../providers/profiles/profiles';
-import { TimingProvider } from '../../providers/timing/timing';
 
 @Component({
 	selector: 'page-edit-profile',
@@ -28,7 +27,6 @@ export class EditProfilePage {
 		public alertCtrl: AlertController,
 		public platform: Platform,
 		private formBuilder: FormBuilder,
-		public timing: TimingProvider,
 		public profilesProvider: ProfilesProvider
 	) {
 		this.oldValues = this.navParams.get('profileToEdit');
@@ -49,7 +47,8 @@ export class EditProfilePage {
 		const rest = parseInt(this.form.get("rest").value);
 
 		const updatedValues: Profile = {
-			id: this.oldValues.id
+			id: this.oldValues.id,
+			active: this.oldValues.active
 		}
 
 		if (name !== this.oldValues.name) {
@@ -82,7 +81,7 @@ export class EditProfilePage {
 	}
 
 	private showConfirmAlert() {
-		let confirm = this.alertCtrl.create({
+		this.alertCtrl.create({
 			title: 'Discard changes?',
 			buttons: [
 				{ text: 'Cancel' },
@@ -93,9 +92,7 @@ export class EditProfilePage {
 					}
 				}
 			]
-		});
-
-		confirm.present();
+		}).present();
 	}
 
 }

@@ -6,38 +6,48 @@
 
 <ion-content padding>
 
-	<div>
-		<div text-center>
-			<h1 id="stateHeading">Heater is
-				<span *ngIf="enabled; else heaterDisabledBlock">on</span>
-				<ng-template #heaterDisabledBlock>
-					<span>off</span>
-				</ng-template>
-			</h1>
-		</div>
-		<h5 *ngIf="!enabled">You have to restart the heater manually!</h5>
-	</div>
+	<ion-list>
 
-	<div id="activeProfileDataContainer" *ngIf="enabled && activeProfile">
-		<h3>Active Profile</h3>
-		<span>Name: </span>
-		<span>{{activeProfile.name}}</span>
-		<br>
-		<span>Heat: </span>
-		<span>{{timing.stringifyInfinite(activeProfile.heat)}}</span>
-		<span *ngIf="activeProfile.heat>0">Minutes</span>
-		<br>
-		<span>Preserve: </span>
-		<span>{{timing.stringifyInfinite(activeProfile.preserve)}}</span>
-		<span *ngIf="activeProfile.preserve>0">Minutes</span>
-		<br>
-		<span>Rest: </span>
-		<span>{{timing.stringifyInfinite(activeProfile.rest)}}</span>
-		<span *ngIf="activeProfile.rest>0">Minutes</span>
-	</div>
+		<ion-item *ngIf="activeProfile">
+			<h1>Active Profile</h1>
+			<p>Name:
+				<span>{{activeProfile.name}}</span>
+			</p>
+			<p>Heat:
+				<span>{{stringifyInfinite(activeProfile.heat)}}</span>
+				<span *ngIf="activeProfile.heat>0">Minutes</span>
+			</p>
+			<p>Preseve:
+				<span>{{stringifyInfinite(activeProfile.preserve)}}</span>
+				<span *ngIf="activeProfile.preserve>0">Minutes</span>
+			</p>
+			<p>Rest:
+				<span>{{stringifyInfinite(activeProfile.rest)}}</span>
+				<span *ngIf="activeProfile.rest>0">Minutes</span>
+			</p>
+		</ion-item>
 
-	<button id="turnOffButton" *ngIf="enabled" ion-button color="danger" full icon-only large round (click)="onTurnOffButtonClicked()">
-		<ion-icon name="power"></ion-icon>
-	</button>
+		<ion-item>
+			<h1>Heater Connection</h1>
+			<p>Status:
+				<span *ngIf="arduino.heaterConnected" class="success">Connected</span>
+				<span *ngIf="!arduino.heaterConnected" class="fail">Disconnected</span>
+			</p>
+			<button ion-button item-end icon-end *ngIf="!arduino.heaterConnected" (click)="connectToHeater()">Connect</button>
+			<button ion-button item-end icon-end *ngIf="arduino.heaterConnected" (click)="disconnectFromHeater()">Disconnect</button>
+		</ion-item>
+
+		<ion-item>
+			<h1>Heater Function</h1>
+			<p>Status:
+				<span *ngIf="arduino.heaterConnected && arduino.heaterEnabled" class="success">Enabled</span>
+				<span *ngIf="arduino.heaterConnected && !arduino.heaterEnabled" class="fail">Disabled</span>
+				<span *ngIf="!arduino.heaterConnected">N/A (heater is not connected)</span>
+			</p>
+			<button ion-button item-end icon-end *ngIf="arduino.heaterConnected && arduino.heaterEnabled" (click)="onDisableHeaterButtonClicked()">Disable</button>
+			<button ion-button item-end icon-end *ngIf="arduino.heaterConnected && !arduino.heaterEnabled" (click)="onEnableHeaterButtonClicked()">Enable</button>
+		</ion-item>
+
+	</ion-list>
 
 </ion-content>
