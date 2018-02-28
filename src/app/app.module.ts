@@ -8,9 +8,8 @@ import { MyApp } from './app.component';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { HomePage } from '../pages/home/home';
-import {ProfilesPage, ProfilesPopoverPage} from '../pages/profiles/profiles';
+import {ProfilesPage} from '../pages/profiles/profiles';
 import {NewProfilePage} from '../pages/new-profile/new-profile';
-import {EditProfilePage} from '../pages/edit-profile/edit-profile';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -26,9 +25,7 @@ import { ArduinoHeaterProvider } from '../providers/arduino-heater/arduino-heate
 		TabsPage,
 		HomePage,
 		ProfilesPage,
-		ProfilesPopoverPage,
-		NewProfilePage,
-		EditProfilePage
+		NewProfilePage
   ],
   imports: [
     BrowserModule,
@@ -41,9 +38,7 @@ import { ArduinoHeaterProvider } from '../providers/arduino-heater/arduino-heate
 		TabsPage,
 		HomePage,
 		ProfilesPage,
-		ProfilesPopoverPage,
-		NewProfilePage,
-		EditProfilePage
+		NewProfilePage
   ],
   providers: [
     StatusBar,

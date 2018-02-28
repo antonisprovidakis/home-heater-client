@@ -1,12 +1,7 @@
 <ion-header>
-	<ion-toolbar>
+	<ion-navbar>
 		<ion-title>Profiles</ion-title>
-		<ion-buttons end>
-			<button ion-button icon-only color="black" (click)="showMoreOptions($event)">
-				<ion-icon name="more"></ion-icon>
-			</button>
-		</ion-buttons>
-	</ion-toolbar>
+	</ion-navbar>
 </ion-header>
 
 <ion-content padding>
@@ -33,7 +28,7 @@
 	</ion-list>
 
 	<ion-fab right bottom>
-		<button ion-fab (click)="onCreateProfileButtonClicked()">
+		<button ion-fab (click)="showCreateProfilePage()">
 			<ion-icon name="add"></ion-icon>
 		</button>
 	</ion-fab>

@@ -35,7 +35,7 @@ export class ProfilesProvider {
 			await this.saveDefaultProfiles();
 		}
 		else {
-			console.log("pass init");
+			console.log("pass default profiles init");
 		}
 	}
 
@@ -121,30 +121,6 @@ export class ProfilesProvider {
 		}
 
 		return trimmedName;
-	}
-
-	updateProfile(updates: Profile): Promise<Profile> {
-		return new Promise((resolve, reject) => {
-			this.getProfilesFromStorage().then(profiles => {
-				const p = profiles.find(x => x.id === updates.id);
-
-				if (!p) {
-					return reject(new Error(`Profile with id ${updates.id} not found`));
-				}
-
-				p.name = updates.name || p.name;
-				p.heat = updates.heat || p.heat;
-				p.preserve = updates.preserve || p.preserve;
-				p.rest = updates.rest || p.rest;
-
-				this.storage.set("profiles", profiles)
-					.then(() => {
-						this.profilesSubject.next(profiles);
-						resolve(p);
-					})
-					.catch((e) => reject(e));
-			});
-		});
 	}
 
 	deleteProfile(profileId: number): Promise<Profile> {

@@ -5,9 +5,6 @@ import {
 	LoadingController
 } from 'ionic-angular';
 
-import { Observable } from 'rxjs/Observable';
-
-
 import { ProfilesProvider } from '../../providers/profiles/profiles';
 import { ArduinoHeaterProvider } from '../../providers/arduino-heater/arduino-heater';
 import { Profile } from '../../model/profile.interface';

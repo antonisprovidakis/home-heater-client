@@ -5,15 +5,12 @@ import {
 	ActionSheetController,
 	ModalController,
 	ViewController,
-	Platform,
-	PopoverController
+	Platform
 } from 'ionic-angular';
 
 import { Profile } from '../../model/profile.interface';
 
 import { NewProfilePage } from '../../pages/new-profile/new-profile';
-import { EditProfilePage } from '../../pages/edit-profile/edit-profile';
-
 import { ProfilesProvider } from '../../providers/profiles/profiles';
 import { ArduinoHeaterProvider } from '../../providers/arduino-heater/arduino-heater';
 
@@ -32,7 +29,6 @@ export class ProfilesPage {
 		public toastCtrl: ToastController,
 		public actionSheetCtrl: ActionSheetController,
 		public modalCtrl: ModalController,
-		public popoverCtrl: PopoverController,
 		public profilesProvider: ProfilesProvider,
 		public arduino: ArduinoHeaterProvider
 	) {
@@ -42,18 +38,6 @@ export class ProfilesPage {
 		this.profilesProvider.getProfiles().subscribe(profiles => {
 			this.profiles = profiles;
 		});
-
-		// this.profilesProvider.getActiveProfile().subscribe(profile => {
-		// 	if (!this.arduino.heaterConnected) {
-		// 		return;
-		// 	}
-
-		// 	this.arduino.activateProfile(profile);
-		// });
-	}
-
-	showMoreOptions(event) {
-		this.popoverCtrl.create(ProfilesPopoverPage).present({ ev: event });
 	}
 
 	showProfileOptions(profile: Profile) {
@@ -66,13 +50,8 @@ export class ProfilesPage {
 					handler: () => {
 						this.onActivateProfileButtonClicked(profile.id);
 					}
-				}, {
-					text: 'Edit',
-					icon: !this.platform.is('ios') ? 'create' : null,
-					handler: () => {
-						this.onEditProfileClicked(profile);
-					}
-				}, {
+				},
+				{
 					text: 'Delete',
 					role: 'destructive',
 					icon: !this.platform.is('ios') ? 'trash' : null,
@@ -82,6 +61,7 @@ export class ProfilesPage {
 				}
 			]
 		});
+
 		actionSheet.present();
 	}
 
@@ -110,7 +90,6 @@ export class ProfilesPage {
 			return;
 		}
 
-		// TODO: maybe move to 2nd subscription in ionViewDidLoad?
 		this.alertCtrl.create({
 			title: 'Do you want to skip heat phase?',
 			buttons: [
@@ -132,6 +111,7 @@ export class ProfilesPage {
 
 	activateProfile(profileId: number, startFromHeatPhase: boolean) {
 		this.profilesProvider.activateProfile(profileId).then((activatedProfile) => {
+
 			this.arduino.activateProfile(activatedProfile).then(() => {
 
 				if (startFromHeatPhase) {
@@ -141,10 +121,6 @@ export class ProfilesPage {
 				this.showToast(`Profile ${activatedProfile.name} activated`);
 			});
 		}).catch((e) => console.log("error: ", e));
-	}
-
-	onCreateProfileButtonClicked() {
-		this.showCreateProfilePage();
 	}
 
 	showCreateProfilePage() {
@@ -163,35 +139,6 @@ export class ProfilesPage {
 		this.profilesProvider.createProfile(profileData).then((createdProfile) => {
 			this.showToast('Profile "' + createdProfile.name + '" created');
 		});
-	}
-
-	onEditProfileClicked(profile: Profile) {
-		this.showEditProfileModal(profile);
-	}
-
-	showEditProfileModal(profile: Profile) {
-		let editModal = this.modalCtrl.create(EditProfilePage, { profileToEdit: profile });
-
-		editModal.onDidDismiss((data) => {
-			if (data && data.updates) {
-				this.updateProfile(data.updates);
-			}
-		});
-
-		editModal.present();
-	}
-
-	updateProfile(updates: Profile) {
-		this.profilesProvider.updateProfile(updates).then((updatedProfile) => {
-			// TODO: what to do here?
-
-			// if (this.arduino.heaterConnected) {
-			// 	this.arduino.activateProfile(updatedProfile)
-			// 		.then(() => this.showToast('Profile "' + updatedProfile.name + '" updated'))
-			// 		.catch((e) => console.log(e));
-			// }
-			this.showToast('Profile "' + updatedProfile.name + '" updated');
-		}).catch((e) => console.log(e));
 	}
 
 	onDeleteProfileClicked(profile: Profile) {
@@ -228,63 +175,6 @@ export class ProfilesPage {
 		else {
 			return "Infinite";
 		}
-	}
-
-}
-
-
-// Popover Menu
-@Component({
-	template: `
-		<ion-list no-lines>
-			<button ion-item (click)="onRestoreDefaultProfilesClicked()">Restore default profiles</button>
-    </ion-list>
-  `
-})
-export class ProfilesPopoverPage {
-
-	constructor(
-		public toastCtrl: ToastController,
-		public alertCtrl: AlertController,
-		public viewCtrl: ViewController,
-		public profilesProvider: ProfilesProvider,
-		public arduino: ArduinoHeaterProvider
-	) {
-	}
-
-	onRestoreDefaultProfilesClicked() {
-		this.alertCtrl.create({
-			title: 'Restore default profiles?',
-			buttons: [
-				{ text: 'Cancel' },
-				{
-					text: 'Restore',
-					handler: () => {
-						this.restoreDefaultProfiles();
-					}
-				}
-			]
-		}).present();
-	}
-
-	restoreDefaultProfiles() {
-		this.viewCtrl.dismiss().then(() => {
-			this.profilesProvider.restoreDefaultProfiles().then((profiles) => {
-
-				// TODO: which should be activated. HOW?
-
-				// const defaultProfile = profiles.find(x => x.id === 1);
-
-				this.toastCtrl.create({
-					message: "Default profiles restored",
-					duration: 3000,
-					showCloseButton: true,
-					closeButtonText: 'Ok'
-				}).present();
-
-				// this.arduino.activateProfile(defaultProfile, false);
-			});
-		});
 	}
 
 }

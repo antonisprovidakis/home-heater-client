@@ -84,11 +84,11 @@ export class ArduinoHeaterProvider {
 		};
 
 		const msg = this.buildMessage(commandType, params);
-		this.sendMessage(msg)
-			.then(() => {
-				this.heaterEnabled = true;
-				this.disabledTimestamp = null;
-			});
+
+		this.sendMessage(msg).then(() => {
+			this.heaterEnabled = true;
+			this.disabledTimestamp = null;
+		});
 	}
 
 	checkHeaterEnabled(): Promise<boolean> {
@@ -99,7 +99,7 @@ export class ArduinoHeaterProvider {
 				.then(() => {
 					this.bt.readUntil("\n")
 					this.bt.subscribe("~").subscribe((data: string) => {
-						// TODO: this part needs some debugging because it received arduino buffer garbage
+						// TODO: this part needs some debugging because it receives arduino buffer garbage
 						const textToSearch = CHECK_ENABLED + "=";
 						const index = data.indexOf(textToSearch);
 
@@ -120,7 +120,6 @@ export class ArduinoHeaterProvider {
 		});
 	}
 
-	// activateProfile(profile: Profile, skipHeatPhase: boolean) {
 	activateProfile(profile: Profile) {
 		// const heatMillis = this.minutesToMillis(profile.heat);
 		// const preserveMillis = this.minutesToMillis(profile.preserve);
