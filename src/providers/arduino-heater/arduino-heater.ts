@@ -120,6 +120,7 @@ export class ArduinoHeaterProvider {
 		});
 	}
 
+	// activateProfile(profile: Profile, skipHeatPhase: boolean) {
 	activateProfile(profile: Profile) {
 		// const heatMillis = this.minutesToMillis(profile.heat);
 		// const preserveMillis = this.minutesToMillis(profile.preserve);
@@ -130,8 +131,6 @@ export class ArduinoHeaterProvider {
 		const preserveMillis = this.secondsToMillis(profile.preserve);
 		const restMillis = this.secondsToMillis(profile.rest);
 
-
-		const commandType = PROFILE_UPDATE;
 		const params = {
 			id: profile.id,
 			heat: heatMillis,
@@ -139,7 +138,13 @@ export class ArduinoHeaterProvider {
 			rest: restMillis
 		};
 
-		const msg = this.buildMessage(commandType, params);
+		const msg = this.buildMessage(PROFILE_UPDATE, params);
+
+		return this.sendMessage(msg);
+	}
+
+	startFromHeatPhase() {
+		const msg = this.buildMessage(HEATER_FUNCTION, { phase: 'heat' });
 		return this.sendMessage(msg);
 	}
 

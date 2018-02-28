@@ -57,7 +57,7 @@ export class ProfilesProvider {
 	activateProfile(profileId: number): Promise<Profile> {
 		return new Promise((resolve, reject) => {
 			this.getProfilesFromStorage().then(profiles => {
-				const p = profiles.find(x=> x.id === profileId);
+				const p = profiles.find(x => x.id === profileId);
 				const currentlyActiveProfile = profiles.find(x => x.active === true);
 
 				if (profileId === currentlyActiveProfile.id) {
@@ -174,6 +174,7 @@ export class ProfilesProvider {
 		await this.saveDefaultProfiles();
 		const profiles = await this.getProfilesFromStorage();
 		this.profilesSubject.next(profiles);
+		return profiles;
 	}
 
 	private saveDefaultProfiles() {

@@ -43,13 +43,13 @@ export class ProfilesPage {
 			this.profiles = profiles;
 		});
 
-		this.profilesProvider.getActiveProfile().subscribe(profile => {
-			if (!this.arduino.heaterConnected) {
-				return;
-			}
+		// this.profilesProvider.getActiveProfile().subscribe(profile => {
+		// 	if (!this.arduino.heaterConnected) {
+		// 		return;
+		// 	}
 
-			this.arduino.activateProfile(profile);
-		});
+		// 	this.arduino.activateProfile(profile);
+		// });
 	}
 
 	showMoreOptions(event) {
@@ -96,26 +96,50 @@ export class ProfilesPage {
 		toast.present();
 	}
 
-	onActivateProfileButtonClicked(profileId: number) {
-		if (!this.arduino.heaterConnected) {
-			this.showNotConnectedToHeaterAlert();
-			return;
-		}
-
-		this.activateProfile(profileId);
-	}
-
-	private showNotConnectedToHeaterAlert() {
+	private showPreventionAlert(title: string, message: string) {
 		this.alertCtrl.create({
-			title: 'Profile activation error!',
-			message: "You can't activate this profile because you are not connected to the heater.",
+			title: title,
+			message: message,
 			buttons: ['OK']
 		}).present();
 	}
 
-	activateProfile(profileId: number) {
+	onActivateProfileButtonClicked(profileId: number) {
+		if (!this.arduino.heaterConnected) {
+			this.showPreventionAlert("Profile activation error!", "You can't activate this profile because you are not connected to the heater.");
+			return;
+		}
+
+		// TODO: maybe move to 2nd subscription in ionViewDidLoad?
+		this.alertCtrl.create({
+			title: 'Do you want to skip heat phase?',
+			buttons: [
+				{
+					text: 'Restart heat phase',
+					handler: () => {
+						this.activateProfile(profileId, true);
+					}
+				},
+				{
+					text: 'Skip heat phase',
+					handler: () => {
+						this.activateProfile(profileId, false);
+					}
+				}
+			]
+		}).present();
+	}
+
+	activateProfile(profileId: number, startFromHeatPhase: boolean) {
 		this.profilesProvider.activateProfile(profileId).then((activatedProfile) => {
-			this.showToast('Profile "' + activatedProfile.name + '" activated');
+			this.arduino.activateProfile(activatedProfile).then(() => {
+
+				if (startFromHeatPhase) {
+					this.arduino.startFromHeatPhase();
+				}
+
+				this.showToast(`Profile ${activatedProfile.name} activated`);
+			});
 		}).catch((e) => console.log("error: ", e));
 	}
 
@@ -171,8 +195,13 @@ export class ProfilesPage {
 	}
 
 	onDeleteProfileClicked(profile: Profile) {
+		if (profile.active) {
+			this.showPreventionAlert("Profile deletion error!", "You can't delete this profile because it is currently active. You will be able to delete it after you have chosen another one.");
+			return;
+		}
+
 		this.alertCtrl.create({
-			title: 'Delete: "' + profile.name + '"?',
+			title: `Delete: ${profile.name}?`,
 			message: 'Are you sure you want to delete this profile?',
 			buttons: [
 				{ text: 'Cancel' },
@@ -202,6 +231,8 @@ export class ProfilesPage {
 	}
 
 }
+
+
 // Popover Menu
 @Component({
 	template: `
@@ -217,6 +248,7 @@ export class ProfilesPopoverPage {
 		public alertCtrl: AlertController,
 		public viewCtrl: ViewController,
 		public profilesProvider: ProfilesProvider,
+		public arduino: ArduinoHeaterProvider
 	) {
 	}
 
@@ -237,13 +269,20 @@ export class ProfilesPopoverPage {
 
 	restoreDefaultProfiles() {
 		this.viewCtrl.dismiss().then(() => {
-			this.profilesProvider.restoreDefaultProfiles().then(() => {
+			this.profilesProvider.restoreDefaultProfiles().then((profiles) => {
+
+				// TODO: which should be activated. HOW?
+
+				// const defaultProfile = profiles.find(x => x.id === 1);
+
 				this.toastCtrl.create({
 					message: "Default profiles restored",
 					duration: 3000,
 					showCloseButton: true,
 					closeButtonText: 'Ok'
 				}).present();
+
+				// this.arduino.activateProfile(defaultProfile, false);
 			});
 		});
 	}
