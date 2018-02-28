@@ -14,6 +14,9 @@ const SECOND: number = 1000;
 const MINUTE: number = 60 * SECOND;
 const HOUR: number = 60 * MINUTE;
 
+// something less than 4294967295 ms = 71582.78825 minutes
+const INFINITY_SIM_VALUE: number = 71582; // minutes
+
 @Injectable()
 export class ArduinoHeaterProvider {
 
@@ -97,7 +100,6 @@ export class ArduinoHeaterProvider {
 
 			this.sendMessage(msg)
 				.then(() => {
-					this.bt.readUntil("\n")
 					this.bt.subscribe("~").subscribe((data: string) => {
 						// TODO: this part needs some debugging because it receives arduino buffer garbage
 						const textToSearch = CHECK_ENABLED + "=";
@@ -176,19 +178,19 @@ export class ArduinoHeaterProvider {
 	}
 
 	private minutesToMillis(minutes: number): number {
+		if (minutes == -1) { // inifinity
+			return INFINITY_SIM_VALUE * MINUTE;
+		}
+
 		return minutes * MINUTE;
 	}
 
-	//private millisToMinutes(millis: number): number {
-	// 	return millis * MINUTE;
-	// }
-
 	private secondsToMillis(seconds: number): number {
+		if (seconds == -1) { // inifinity
+			return INFINITY_SIM_VALUE * SECOND;
+		}
+
 		return seconds * SECOND;
 	}
-
-	//private millisToSeconds(millis: number): number {
-	// 	return millis * SECOND;
-	// }
 
 }

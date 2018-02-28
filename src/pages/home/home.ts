@@ -15,7 +15,6 @@ import { Profile } from '../../model/profile.interface';
 })
 export class HomePage {
 
-
 	activeProfile: Profile;
 
 	constructor(
@@ -34,31 +33,30 @@ export class HomePage {
 	}
 
 	connectToHeater() {
-		this.arduino.enableBT()
-			.then(() => {
+		this.arduino.enableBT().then(() => {
 
-				let loading = this.loadingCtrl.create({
-					content: 'Connecting to Heater...'
-				});
-
-				loading.present();
-
-				this.arduino.connectToHeater()
-					.then(() => {
-						loading.dismiss();
-					})
-					.catch(() => {
-						loading.dismiss();
-
-						let alert = this.alertCtrl.create({
-							title: 'Heater connection error!',
-							subTitle: 'Connection with heater could not be established. Check if arduino is properly powered.',
-							buttons: ['OK']
-						});
-
-						alert.present();
-					});
+			let loading = this.loadingCtrl.create({
+				content: 'Connecting to Heater...'
 			});
+
+			loading.present();
+
+			this.arduino.connectToHeater()
+				.then(() => {
+					loading.dismiss();
+				})
+				.catch(() => {
+					loading.dismiss();
+
+					let alert = this.alertCtrl.create({
+						title: 'Heater connection error!',
+						subTitle: 'Connection with heater could not be established. Check if arduino is properly powered.',
+						buttons: ['OK']
+					});
+
+					alert.present();
+				});
+		});
 	}
 
 	disconnectFromHeater() {
