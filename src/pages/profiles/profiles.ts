@@ -4,7 +4,6 @@ import {
 	AlertController,
 	ActionSheetController,
 	ModalController,
-	ViewController,
 	Platform
 } from 'ionic-angular';
 
