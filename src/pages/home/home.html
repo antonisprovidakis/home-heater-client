@@ -9,7 +9,7 @@
 	<ion-list>
 
 		<ion-item *ngIf="activeProfile">
-			<h1>Ενεργό Προφίλ</h1>
+			<h2>Ενεργό Προφίλ</h2>
 			<p>Όνομα:
 				<span>{{activeProfile.name}}</span>
 			</p>
@@ -28,7 +28,7 @@
 		</ion-item>
 
 		<ion-item>
-			<h1>Σύνδεση με Σόμπα</h1>
+			<h2>Σύνδεση με Σόμπα</h2>
 			<p>Κατάσταση:
 				<span *ngIf="arduino.heaterConnected" class="success">Συνδεδεμένο</span>
 				<span *ngIf="!arduino.heaterConnected" class="fail">Μη Συνδεδεμένο</span>
@@ -38,7 +38,7 @@
 		</ion-item>
 
 		<ion-item>
-			<h1>Λειτουργία Σόμπας</h1>
+			<h2>Λειτουργία Σόμπας</h2>
 			<p>Κατάσταση:
 				<span *ngIf="arduino.heaterConnected && arduino.heaterEnabled" class="success">Ενεργή</span>
 				<span *ngIf="arduino.heaterConnected && !arduino.heaterEnabled" class="fail">Μη Ενεργή</span>

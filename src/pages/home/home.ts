@@ -36,7 +36,7 @@ export class HomePage {
 		this.arduino.enableBT().then(() => {
 
 			let loading = this.loadingCtrl.create({
-				content: 'Πραγματοποιείται σύνδεση με την σόμπα...'
+				content: 'Σύνδεση με την σόμπα...'
 			});
 
 			loading.present();
