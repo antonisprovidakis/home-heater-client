@@ -114,14 +114,9 @@ export class ArduinoHeaterProvider {
 	}
 
 	activateProfile(profile: Profile) {
-		// const heatMillis = this.minutesToMillis(profile.heat);
-		// const preserveMillis = this.minutesToMillis(profile.preserve);
-		// const restMillis = this.minutesToMillis(profile.rest);
-
-		// TODO: remove this block after debugging
-		const heatMillis = this.secondsToMillis(profile.heat);
-		const preserveMillis = this.secondsToMillis(profile.preserve);
-		const restMillis = this.secondsToMillis(profile.rest);
+		const heatMillis = this.minutesToMillis(profile.heat);
+		const preserveMillis = this.minutesToMillis(profile.preserve);
+		const restMillis = this.minutesToMillis(profile.rest);
 
 		const params = {
 			id: profile.id,
