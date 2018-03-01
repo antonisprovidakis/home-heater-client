@@ -8,19 +8,19 @@
 	<ion-list>
 		<ion-item *ngFor="let p of profiles">
 			<h2>{{p.name}}</h2>
-			<p>Heat:
+			<p>Ζέσταμα:
 				<span>{{stringifyInfinite(p.heat)}}</span>
-				<span *ngIf="p.heat >= 0">Minutes</span>
+				<span *ngIf="p.heat >= 0">Λεπτά</span>
 			</p>
-			<p>Preseve:
+			<p>Συντήρηση:
 				<span>{{p.preserve}}</span>
-				<span>Minutes</span>
+				<span>Λεπτά</span>
 			</p>
-			<p>Rest:
+			<p>Ξεκούραση:
 				<span>{{p.rest}}</span>
-				<span>Minutes</span>
+				<span>Λεπτά</span>
 			</p>
-			<ion-badge item-end *ngIf="p.active" color="success">Active</ion-badge>
+			<ion-icon *ngIf="p.active" name="checkmark-circle" color="success" item-end></ion-icon>
 			<button ion-button item-end icon-only clear (click)="showProfileOptions(p)">
 				<ion-icon name="more" color="black"></ion-icon>
 			</button>

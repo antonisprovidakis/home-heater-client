@@ -111,14 +111,14 @@ export class ProfilesProvider {
 
 	private createName(name: string, id: number): string {
 		if (!name) {
-			return "Profile " + id;
+			return "Προφίλ " + id;
 		}
 
 		const trimmedName = name.trim();
 
 		if (trimmedName.length === 0) {
 			// empty string after trimming
-			return "Profile " + id;
+			return "Προφίλ " + id;
 		}
 
 		return trimmedName;
@@ -161,12 +161,11 @@ export class ProfilesProvider {
 	}
 
 	private createDefaultProfiles(): Profile[] {
-		// TODO: fill with predefined profiles
 		return [
 			{
 				// THIS IS THE DEFAULT PROFILE
 				id: 1,
-				name: 'Profile 1',
+				name: 'Προφίλ 1',
 				active: true,
 				heat: 105,
 				preserve: 2,
@@ -174,7 +173,7 @@ export class ProfilesProvider {
 			},
 			{
 				id: 2,
-				name: 'Profile 2',
+				name: 'Προφίλ 2',
 				active: false,
 				heat: 105,
 				preserve: 4,
@@ -182,7 +181,7 @@ export class ProfilesProvider {
 			},
 			{
 				id: 3,
-				name: 'Profile 3',
+				name: 'Προφίλ 3',
 				active: false,
 				heat: 105,
 				preserve: 3,
@@ -190,7 +189,7 @@ export class ProfilesProvider {
 			},
 			{
 				id: 4,
-				name: 'Profile 4',
+				name: 'Προφίλ 4',
 				active: false,
 				heat: 105,
 				preserve: 3,
@@ -198,7 +197,7 @@ export class ProfilesProvider {
 			},
 			{
 				id: 5,
-				name: 'Profile 5',
+				name: 'Προφίλ 5',
 				active: false,
 				heat: 105,
 				preserve: 2,
@@ -206,7 +205,7 @@ export class ProfilesProvider {
 			},
 			{
 				id: 6,
-				name: 'Profile 6',
+				name: 'Προφίλ 6',
 				active: false,
 				heat: 90,
 				preserve: 2,
@@ -214,7 +213,7 @@ export class ProfilesProvider {
 			},
 			{
 				id: 7,
-				name: 'Profile 7',
+				name: 'Προφίλ 7',
 				active: false,
 				heat: 120,
 				preserve: 3,
@@ -222,7 +221,7 @@ export class ProfilesProvider {
 			},
 			{
 				id: 8,
-				name: 'Profile 8',
+				name: 'Προφίλ 8',
 				active: false,
 				heat: 120,
 				preserve: 2,
@@ -230,7 +229,7 @@ export class ProfilesProvider {
 			},
 			{
 				id: 9,
-				name: 'Profile 9',
+				name: 'Προφίλ 9',
 				active: false,
 				heat: 120,
 				preserve: 2,
@@ -238,7 +237,7 @@ export class ProfilesProvider {
 			},
 			{
 				id: 10,
-				name: 'Profile 10',
+				name: 'Προφίλ 10',
 				active: false,
 				heat: -1,
 				preserve: 0,

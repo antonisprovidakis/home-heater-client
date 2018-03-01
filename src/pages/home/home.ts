@@ -36,7 +36,7 @@ export class HomePage {
 		this.arduino.enableBT().then(() => {
 
 			let loading = this.loadingCtrl.create({
-				content: 'Connecting to Heater...'
+				content: 'Πραγματοποιείται σύνδεση με την σόμπα...'
 			});
 
 			loading.present();
@@ -49,8 +49,8 @@ export class HomePage {
 					loading.dismiss();
 
 					let alert = this.alertCtrl.create({
-						title: 'Heater connection error!',
-						subTitle: 'Connection with heater could not be established. Check if arduino is properly powered.',
+						title: 'Σφάλμα σύνδεσης με την σόμπα!',
+						subTitle: 'Η σύνδεση με την σόμπα δεν ήταν εφικτό να πραγματοποιηθεί. Ελέγξτε αν η σόμπα (arduino) τροφοδοτείται.',
 						buttons: ['OK']
 					});
 
@@ -65,12 +65,12 @@ export class HomePage {
 
 	onDisableHeaterButtonClicked() {
 		const confirm = this.alertCtrl.create({
-			title: 'Disable heater',
-			message: 'Are you sure you want to disable the heater?',
+			title: 'Απενεργοποίηση Σόμπας',
+			message: 'Είστε σίγουρος ότι θέλετε να απενεργοποιήσετε την σόμπα;',
 			buttons: [
-				{ text: 'Cancel' },
+				{ text: 'ΑΚΥΡΩΣΗ' },
 				{
-					text: 'Disable Heater',
+					text: 'ΑΠΕΝΕΡΓΟΠΟΙΗΣΗ',
 					handler: () => {
 						this.disableHeater();
 					}
@@ -89,12 +89,12 @@ export class HomePage {
 
 		if (nowTimestamp - this.arduino.disabledTimestamp > 60000) { // 1 minute has passed
 			const confirm = this.alertCtrl.create({
-				title: 'Enable heater',
-				message: 'Heater is disabled for more than a minute. Enabling is not recommended, as the place may be filled with smoke or worse it may not be enough to light the fire back again in the stove. Are you sure you want to enable it?',
+				title: 'Ενεργοποίσηση Σόμπας',
+				message: 'Η σόμπα είναι απενεργοποιημένη για πάνω από ένα λεπτό. Δεν συνιστάται η ενεργοποίηση της, καθώς ο χώρος μπορεί να γεμίσει καπνό ή ακόμα χειρότερα να μην καταφέρει ποτέ να επανέλθει σε κατάσταση λειτουργίας. Είστε σίγουρος ότι θέλετε να ενεργοποιήσετε την σόμπα;',
 				buttons: [
-					{ text: 'Cancel' },
+					{ text: 'ΑΚΥΡΩΣΗ' },
 					{
-						text: 'Enable Heater',
+						text: 'ΕΝΕΡΓΟΠΟΙΗΣΗ',
 						handler: () => {
 							this.enableHeater();
 						}
@@ -118,7 +118,7 @@ export class HomePage {
 			return value.toString();
 		}
 		else {
-			return "Infinite";
+			return "Άπειρο";
 		}
 	}
 

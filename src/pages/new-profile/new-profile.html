@@ -19,18 +19,18 @@
 		<form [formGroup]="form">
 
 			<ion-item>
-				<ion-label stacked>Name (Optional)</ion-label>
+				<ion-label stacked>Όνομα (Προαιρετικό)</ion-label>
 				<ion-input type="text" formControlName="name"></ion-input>
 			</ion-item>
 
 			<ion-item>
-				<ion-label stacked>Heat time (Minutes)(-1=Infinity)</ion-label>
+				<ion-label stacked>Χρόνος Ζεστάματος (Λεπτά)(-1=Άπειρο)</ion-label>
 				<ion-input type="number" formControlName="heat"></ion-input>
 			</ion-item>
 
 			<ion-item *ngIf="form.get('heat').hasError('required') &&
 							form.get('heat').dirty && form.get('heat').touched">
-				<p class="validation-error">Heat interval is required</p>
+				<p class="validation-error">Απαιτείται η εισαγωγή χρόνου ζεστάματος</p>
 			</ion-item>
 
 			<!-- Doesn't work due to an Angular bug -->
@@ -41,66 +41,62 @@
 
 			<ion-item *ngIf="form.get('heat').hasError('min')	&&
 							form.get('heat').dirty && form.get('heat').touched">
-				<p class="validation-error">Min value for heat interval is -1</p>
+				<p class="validation-error">Η ελάχιστη τιμή για το χρόνο ζεστάματος είναι -1</p>
 			</ion-item>
 
 			<ion-item *ngIf="form.get('heat').hasError('max')	&&
 							form.get('heat').dirty && form.get('heat').touched">
-				<p class="validation-error">Max value for heat interval is 71581</p>
+				<p class="validation-error">Η μέγιστη τιμή για το χρόνο ζεστάματος είναι 71581</p>
 			</ion-item>
 
 			<ion-item>
-				<ion-label stacked>Preserve time (Minutes)</ion-label>
+				<ion-label stacked>Χρόνος Συντήρησης (Λεπτά)</ion-label>
 				<ion-input type="number" formControlName="preserve"></ion-input>
 			</ion-item>
 
 			<ion-item *ngIf="form.get('preserve').hasError('required') &&
 							form.get('preserve').dirty && form.get('preserve').touched">
-				<p class="validation-error">Preserve interval is required</p>
+				<p class="validation-error">Απαιτείται η εισαγωγή χρόνου συντήρησης</p>
 			</ion-item>
 
 			<ion-item *ngIf="form.get('preserve').hasError('min')	&&
 							form.get('preserve').dirty && form.get('preserve').touched">
-				<p class="validation-error">Min value for preserve interval is 0</p>
+				<p class="validation-error">Η ελάχιστη τιμή για το χρόνο συντήρησης είναι 0</p>
 			</ion-item>
 
 			<ion-item *ngIf="form.get('preserve').hasError('max')	&&
 							form.get('preserve').dirty && form.get('preserve').touched">
-				<p class="validation-error">Max value for preserve interval is 71581</p>
+				<p class="validation-error">Η μέγιστη τιμή για το χρόνο συντήρησης είναι 71581</p>
 			</ion-item>
 
 			<ion-item>
-				<ion-label stacked>Rest time (Minutes)</ion-label>
+				<ion-label stacked>Χρόνος Ξεκούρασης (Λεπτά)</ion-label>
 				<ion-input type="number" formControlName="rest"></ion-input>
 			</ion-item>
 
 			<ion-item *ngIf="form.get('rest').hasError('required') &&
 							form.get('rest').dirty && form.get('rest').touched">
-				<p class="validation-error">Rest interval is required</p>
+				<p class="validation-error">Απαιτείται η εισαγωγή χρόνου ξεκούρασης</p>
 			</ion-item>
 
 			<ion-item *ngIf="form.get('rest').hasError('min')	&&
 							form.get('rest').dirty && form.get('rest').touched">
-				<p class="validation-error">Min value for rest interval is 0</p>
+				<p class="validation-error">Η ελάχιστη τιμή για το χρόνο ξεκούρασης είναι 0</p>
 			</ion-item>
 
 			<ion-item *ngIf="form.get('rest').hasError('max')	&&
 							form.get('rest').dirty && form.get('rest').touched">
-				<p class="validation-error">Max value for rest interval is 71581</p>
+				<p class="validation-error">Η μέγιστη τιμή για το χρόνο ξεκούρασης είναι 71581</p>
 			</ion-item>
 
 		</form>
 
 	</ion-list>
 
-	<!-- <div>
-		<p>*Use -1 to </p>
-	</div> -->
-
 </ion-content>
 
 <ion-footer>
 	<ion-toolbar>
-		<button ion-button full (click)="createProfile()" [disabled]="!form.valid">Save</button>
+		<button ion-button full (click)="createProfile()" [disabled]="!form.valid">ΔΗΜΙΟΥΡΓΙΑ ΠΡΟΦΙΛ</button>
 	</ion-toolbar>
 </ion-footer>

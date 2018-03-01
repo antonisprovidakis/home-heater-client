@@ -61,11 +61,11 @@ export class NewProfilePage {
 
 	private showConfirmAlert() {
 		let confirm = this.alertCtrl.create({
-			title: 'Discard changes?',
+			title: 'Απόρριψη Αλλαγών;',
 			buttons: [
-				{ text: 'Cancel' },
+				{ text: 'ΑΚΥΡΩΣΗ' },
 				{
-					text: 'Discard',
+					text: 'ΑΠΟΡΡΙΨΗ',
 					handler: () => {
 						this.dismiss(null);
 					}

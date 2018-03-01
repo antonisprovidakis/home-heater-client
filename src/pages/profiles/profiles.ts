@@ -44,14 +44,14 @@ export class ProfilesPage {
 			title: profile.name,
 			buttons: [
 				{
-					text: 'Activate',
+					text: 'Ενεργοποίηση προφίλ',
 					icon: !this.platform.is('ios') ? 'play' : null,
 					handler: () => {
 						this.onActivateProfileButtonClicked(profile);
 					}
 				},
 				{
-					text: 'Delete',
+					text: 'Διαγραφή προφίλ',
 					role: 'destructive',
 					icon: !this.platform.is('ios') ? 'trash' : null,
 					handler: () => {
@@ -70,7 +70,7 @@ export class ProfilesPage {
 			duration: 3000,
 			// position: 'top',
 			showCloseButton: true,
-			closeButtonText: 'Ok'
+			closeButtonText: 'OK'
 		});
 		toast.present();
 	}
@@ -85,7 +85,7 @@ export class ProfilesPage {
 
 	onActivateProfileButtonClicked(profile: Profile) {
 		if (!this.arduino.heaterConnected) {
-			this.showPreventionAlert("Profile activation error!", "You can't activate this profile because you are not connected to the heater.");
+			this.showPreventionAlert("Σφάλμα ενεργοποίσης προφίλ!", "Δεν μπορεί να πραγματοποιηθεί η ενεργοποίηση του προφίλ επειδή δεν έχει γίνει σύνδεση με την σόμπα.");
 			return;
 		}
 
@@ -96,18 +96,19 @@ export class ProfilesPage {
 
 
 		this.alertCtrl.create({
-			title: 'Do you want to skip heat phase?',
+			title: 'Σημείο εκκίνησης νέου προφίλ',
+			message: 'Θέλετε να πραγματοποιηθεί το Ζέσταμα από την αρχή κατά την ενεργοποίηση του νέου προφίλ;',
 			buttons: [
 				{
-					text: 'Restart heat phase',
+					text: 'ΟΧΙ',
 					handler: () => {
-						this.activateProfile(profile, true);
+						this.activateProfile(profile, false);
 					}
 				},
 				{
-					text: 'Skip heat phase',
+					text: 'ΝΑΙ',
 					handler: () => {
-						this.activateProfile(profile, false);
+						this.activateProfile(profile, true);
 					}
 				}
 			]
@@ -123,7 +124,7 @@ export class ProfilesPage {
 					this.arduino.startFromHeatPhase();
 				}
 
-				this.showToast(`Profile ${activatedProfile.name} activated`);
+				this.showToast(`Το προφίλ "${activatedProfile.name}" ενεργοποιήθηκε`);
 			});
 		}).catch((e) => console.log("error: ", e));
 	}
@@ -142,23 +143,23 @@ export class ProfilesPage {
 
 	createProfile(profileData: Profile) {
 		this.profilesProvider.createProfile(profileData).then((createdProfile) => {
-			this.showToast('Profile "' + createdProfile.name + '" created');
+			this.showToast(`Το προφίλ "${createdProfile.name}" δημιουργήθηκε`);
 		});
 	}
 
 	onDeleteProfileClicked(profile: Profile) {
 		if (profile.active) {
-			this.showPreventionAlert("Profile deletion error!", "You can't delete this profile because it is currently active. You will be able to delete it after you have chosen another one.");
+			this.showPreventionAlert("Σφάλμα διαγραφής προφίλ!", "Δεν μπορείτε να διαγράψετε το ενεργό προφίλ. Η διαγραφή του θα είναι εφικτή αφού πρώτα ενεργοποιήσετε κάποιο άλλο.");
 			return;
 		}
 
 		this.alertCtrl.create({
-			title: `Delete: ${profile.name}?`,
-			message: 'Are you sure you want to delete this profile?',
+			title: `Διαγραφή "${profile.name}"`,
+			message: 'Είστε σίγουρος πως θέλετε να διαγράψετε αυτό το προφίλ;',
 			buttons: [
-				{ text: 'Cancel' },
+				{ text: 'ΑΚΥΡΩΣΗ' },
 				{
-					text: 'Delete',
+					text: 'ΔΙΑΓΡΑΦΗ',
 					handler: () => {
 						this.deleteProfile(profile.id);
 					}
@@ -169,7 +170,7 @@ export class ProfilesPage {
 
 	deleteProfile(profileId: number) {
 		this.profilesProvider.deleteProfile(profileId).then((deletedProfile) => {
-			this.showToast('Profile "' + deletedProfile.name + '" deleted');
+			this.showToast(`Το προφίλ "${deletedProfile.name}" διαγράφτηκε`);
 		}).catch((e) => console.log(e));;
 	}
 
@@ -178,7 +179,7 @@ export class ProfilesPage {
 			return value.toString();
 		}
 		else {
-			return "Infinite";
+			return "Άπειρο";
 		}
 	}
 

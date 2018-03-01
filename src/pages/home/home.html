@@ -9,43 +9,43 @@
 	<ion-list>
 
 		<ion-item *ngIf="activeProfile">
-			<h1>Active Profile</h1>
-			<p>Name:
+			<h1>Ενεργό Προφίλ</h1>
+			<p>Όνομα:
 				<span>{{activeProfile.name}}</span>
 			</p>
-			<p>Heat:
+			<p>Ζέσταμα:
 				<span>{{stringifyInfinite(activeProfile.heat)}}</span>
-				<span *ngIf="activeProfile.heat >= 0">Minutes</span>
+				<span *ngIf="activeProfile.heat >= 0">Λεπτά</span>
 			</p>
-			<p>Preseve:
+			<p>Συντήρηση:
 				<span>{{activeProfile.preserve}}</span>
-				<span>Minutes</span>
+				<span>Λεπτά</span>
 			</p>
-			<p>Rest:
+			<p>Ξεκούραση:
 				<span>{{activeProfile.rest}}</span>
-				<span>Minutes</span>
+				<span>Λεπτά</span>
 			</p>
 		</ion-item>
 
 		<ion-item>
-			<h1>Heater Connection</h1>
-			<p>Status:
-				<span *ngIf="arduino.heaterConnected" class="success">Connected</span>
-				<span *ngIf="!arduino.heaterConnected" class="fail">Disconnected</span>
+			<h1>Σύνδεση με Σόμπα</h1>
+			<p>Κατάσταση:
+				<span *ngIf="arduino.heaterConnected" class="success">Συνδεδεμένο</span>
+				<span *ngIf="!arduino.heaterConnected" class="fail">Μη Συνδεδεμένο</span>
 			</p>
-			<button ion-button item-end icon-end *ngIf="!arduino.heaterConnected" (click)="connectToHeater()">Connect</button>
-			<button ion-button item-end icon-end *ngIf="arduino.heaterConnected" (click)="disconnectFromHeater()">Disconnect</button>
+			<button ion-button item-end icon-end *ngIf="!arduino.heaterConnected" (click)="connectToHeater()">ΣΥΝΔΕΣΗ</button>
+			<button ion-button item-end icon-end *ngIf="arduino.heaterConnected" (click)="disconnectFromHeater()">ΑΠΟΣΥΝΔΕΣΗ</button>
 		</ion-item>
 
 		<ion-item>
-			<h1>Heater Function</h1>
-			<p>Status:
-				<span *ngIf="arduino.heaterConnected && arduino.heaterEnabled" class="success">Enabled</span>
-				<span *ngIf="arduino.heaterConnected && !arduino.heaterEnabled" class="fail">Disabled</span>
-				<span *ngIf="!arduino.heaterConnected">N/A (heater is not connected)</span>
+			<h1>Λειτουργία Σόμπας</h1>
+			<p>Κατάσταση:
+				<span *ngIf="arduino.heaterConnected && arduino.heaterEnabled" class="success">Ενεργή</span>
+				<span *ngIf="arduino.heaterConnected && !arduino.heaterEnabled" class="fail">Μη Ενεργή</span>
+				<span *ngIf="!arduino.heaterConnected">Μη Διαθέσιμη</span>
 			</p>
-			<button ion-button item-end icon-end *ngIf="arduino.heaterConnected && arduino.heaterEnabled" (click)="onDisableHeaterButtonClicked()">Disable</button>
-			<button ion-button item-end icon-end *ngIf="arduino.heaterConnected && !arduino.heaterEnabled" (click)="onEnableHeaterButtonClicked()">Enable</button>
+			<button ion-button item-end icon-end *ngIf="arduino.heaterConnected && arduino.heaterEnabled" (click)="onDisableHeaterButtonClicked()">ΑΠΕΝΕΡΓΟΠΟΙΗΣΗ</button>
+			<button ion-button item-end icon-end *ngIf="arduino.heaterConnected && !arduino.heaterEnabled" (click)="onEnableHeaterButtonClicked()">ΕΝΕΡΓΟΠΟΙΗΣΗ</button>
 		</ion-item>
 
 	</ion-list>
