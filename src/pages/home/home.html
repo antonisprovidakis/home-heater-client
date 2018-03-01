@@ -15,15 +15,15 @@
 			</p>
 			<p>Heat:
 				<span>{{stringifyInfinite(activeProfile.heat)}}</span>
-				<span *ngIf="activeProfile.heat>0">Minutes</span>
+				<span *ngIf="activeProfile.heat >= 0">Minutes</span>
 			</p>
 			<p>Preseve:
-				<span>{{stringifyInfinite(activeProfile.preserve)}}</span>
-				<span *ngIf="activeProfile.preserve>0">Minutes</span>
+				<span>{{activeProfile.preserve}}</span>
+				<span>Minutes</span>
 			</p>
 			<p>Rest:
-				<span>{{stringifyInfinite(activeProfile.rest)}}</span>
-				<span *ngIf="activeProfile.rest>0">Minutes</span>
+				<span>{{activeProfile.rest}}</span>
+				<span>Minutes</span>
 			</p>
 		</ion-item>
 

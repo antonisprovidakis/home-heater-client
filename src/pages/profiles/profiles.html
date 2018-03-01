@@ -10,15 +10,15 @@
 			<h2>{{p.name}}</h2>
 			<p>Heat:
 				<span>{{stringifyInfinite(p.heat)}}</span>
-				<span *ngIf="p.heat>0">Minutes</span>
+				<span *ngIf="p.heat >= 0">Minutes</span>
 			</p>
 			<p>Preseve:
-				<span>{{stringifyInfinite(p.preserve)}}</span>
-				<span *ngIf="p.preserve>0">Minutes</span>
+				<span>{{p.preserve}}</span>
+				<span>Minutes</span>
 			</p>
 			<p>Rest:
-				<span>{{stringifyInfinite(p.rest)}}</span>
-				<span *ngIf="p.rest>0">Minutes</span>
+				<span>{{p.rest}}</span>
+				<span>Minutes</span>
 			</p>
 			<ion-badge item-end *ngIf="p.active" color="success">Active</ion-badge>
 			<button ion-button item-end icon-only clear (click)="showProfileOptions(p)">

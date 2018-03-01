@@ -67,12 +67,8 @@ export class ArduinoHeaterProvider {
 	}
 
 	disableHeater() {
-		const commandType = HEATER_FUNCTION;
-		const params = {
-			enabled: false
-		};
+		const msg = this.buildMessage(HEATER_FUNCTION, { enabled: false });
 
-		const msg = this.buildMessage(commandType, params);
 		this.sendMessage(msg)
 			.then(() => {
 				this.disabledTimestamp = Date.now();
@@ -81,12 +77,7 @@ export class ArduinoHeaterProvider {
 	}
 
 	enableHeater() {
-		const commandType = HEATER_FUNCTION;
-		const params = {
-			enabled: true
-		};
-
-		const msg = this.buildMessage(commandType, params);
+		const msg = this.buildMessage(HEATER_FUNCTION, { enabled: true });
 
 		this.sendMessage(msg).then(() => {
 			this.heaterEnabled = true;
