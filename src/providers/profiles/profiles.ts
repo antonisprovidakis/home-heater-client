@@ -54,14 +54,15 @@ export class ProfilesProvider {
 		return this.storage.get("profiles");
 	}
 
-	activateProfile(profileId: number): Promise<Profile> {
+	// activateProfile(profileId: number): Promise<Profile> {
+	activateProfile(profile: Profile): Promise<Profile> {
 		return new Promise((resolve, reject) => {
 			this.getProfilesFromStorage().then(profiles => {
-				const p = profiles.find(x => x.id === profileId);
+				const p = profiles.find(x => x.id === profile.id);
 				const currentlyActiveProfile = profiles.find(x => x.active === true);
 
-				if (profileId === currentlyActiveProfile.id) {
-					return reject(new Error(`Profile with id ${profileId} is already active`));
+				if (profile.id === currentlyActiveProfile.id) {
+					return reject(new Error(`Profile with id ${profile.id} is already active`));
 				}
 
 				currentlyActiveProfile.active = false;

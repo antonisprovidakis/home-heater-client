@@ -47,7 +47,7 @@ export class ProfilesPage {
 					text: 'Activate',
 					icon: !this.platform.is('ios') ? 'play' : null,
 					handler: () => {
-						this.onActivateProfileButtonClicked(profile.id);
+						this.onActivateProfileButtonClicked(profile);
 					}
 				},
 				{
@@ -83,11 +83,17 @@ export class ProfilesPage {
 		}).present();
 	}
 
-	onActivateProfileButtonClicked(profileId: number) {
+	onActivateProfileButtonClicked(profile: Profile) {
 		if (!this.arduino.heaterConnected) {
 			this.showPreventionAlert("Profile activation error!", "You can't activate this profile because you are not connected to the heater.");
 			return;
 		}
+
+		if (profile.heat == -1) {
+			this.activateProfile(profile, true);
+			return;
+		}
+
 
 		this.alertCtrl.create({
 			title: 'Do you want to skip heat phase?',
@@ -95,21 +101,21 @@ export class ProfilesPage {
 				{
 					text: 'Restart heat phase',
 					handler: () => {
-						this.activateProfile(profileId, true);
+						this.activateProfile(profile, true);
 					}
 				},
 				{
 					text: 'Skip heat phase',
 					handler: () => {
-						this.activateProfile(profileId, false);
+						this.activateProfile(profile, false);
 					}
 				}
 			]
 		}).present();
 	}
 
-	activateProfile(profileId: number, startFromHeatPhase: boolean) {
-		this.profilesProvider.activateProfile(profileId).then((activatedProfile) => {
+	activateProfile(profile: Profile, startFromHeatPhase: boolean) {
+		this.profilesProvider.activateProfile(profile).then((activatedProfile) => {
 
 			this.arduino.activateProfile(activatedProfile).then(() => {
 
