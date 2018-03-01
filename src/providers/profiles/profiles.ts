@@ -169,31 +169,79 @@ export class ProfilesProvider {
 				active: true,
 				heat: 105,
 				preserve: 2,
-				rest: 2,
+				rest: 2
 			},
 			{
 				id: 2,
 				name: 'Profile 2',
 				active: false,
-				heat: 60,
-				preserve: 3,
-				rest: 20,
+				heat: 105,
+				preserve: 4,
+				rest: 2
 			},
 			{
 				id: 3,
 				name: 'Profile 3',
 				active: false,
-				heat: 30,
-				preserve: 45,
-				rest: 4,
+				heat: 105,
+				preserve: 3,
+				rest: 3
 			},
 			{
 				id: 4,
 				name: 'Profile 4',
 				active: false,
-				heat: 8,
-				preserve: 5,
-				rest: 3,
+				heat: 105,
+				preserve: 3,
+				rest: 2
+			},
+			{
+				id: 5,
+				name: 'Profile 5',
+				active: false,
+				heat: 105,
+				preserve: 2,
+				rest: 1
+			},
+			{
+				id: 6,
+				name: 'Profile 6',
+				active: false,
+				heat: 90,
+				preserve: 2,
+				rest: 2
+			},
+			{
+				id: 7,
+				name: 'Profile 7',
+				active: false,
+				heat: 120,
+				preserve: 3,
+				rest: 2
+			},
+			{
+				id: 8,
+				name: 'Profile 8',
+				active: false,
+				heat: 120,
+				preserve: 2,
+				rest: 2
+			},
+			{
+				id: 9,
+				name: 'Profile 9',
+				active: false,
+				heat: 120,
+				preserve: 2,
+				rest: 1
+			},
+			{
+				id: 10,
+				name: 'Profile 10',
+				active: false,
+				heat: -1,
+				preserve: 0,
+				rest: 0
 			}
 		];
 	}
