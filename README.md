@@ -3,7 +3,7 @@
 </p>
 
 ## About
-Home Heater client app of my house's custom heating system. Implemented using Ionic framework and currently targets Android platform.
+Home Heater client app of my house's custom heating system. Implemented using [Ionic](https://ionicframework.com) framework and currently targets Android platform.
 
 
 ## UI Screenshots
